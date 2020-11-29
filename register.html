@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+
+<head>
+  <title>TODO supply a title</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="css/style.css" />
+
+  <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-firestore.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
+  <script src="index.js"></script>
+
+</head>
+
+<body>
+
+  <div class="header">
+    <div class="logo">
+      <h1>Rejestracja</h1>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="middle">
+      <input class="email" type="text" placeholder="Email" id="email">
+      <input class="password" type="password" placeholder="Hasło" id="password">
+      <input class="name" type="text" placeholder="Imię" id="name">
+
+
+      <h4>Jestem:</h4>
+      <div class="container" >
+        <input type="radio" id="male" name="gender" value="male" checked>
+        <label class="mymale" for="male">Mężczyzna</label>
+
+        <input type="radio" id="Female" name="gender" value="female" checked>
+        <label class="myfemale" for="Female">Kobieta</label>
+      </div>
+
+      <h4>Szukam:</h4></br>
+      <div class="container">
+        <input type="radio" id="lookForMale" name="wantedGender" value="male" checked>
+        <label class="male" for="lookForMale">Mężczyzna</label>
+
+        <input type="radio" id="lookForBisexual" name="wantedGender" value="male Female" checked>
+        <label class="bisexual" for="lookForBisexual">Obie płcie</label>
+
+        <input type="radio" id="lookForFemale" name="wantedGender" value="female" checked>
+        <label class="female" for="lookForFemale">Kobieta</label>
+      </div>
+
+      
+      <input type="file" id="photo" />
+      <label class="addphoto" for="photo">Dodaj zdjęcie profilowe</label> 
+
+      <!--<label for="opis">Krotki opis siebie</label>-->
+      <textarea placeholder="Krótki opis siebie." id="opis" name="opis" rows="4" cols="50"></textarea>
+      <br><br>
+
+
+
+    </div>
+    <div class="buttons">
+      <button onclick="handleSignUp(db)">Zarejestruj</button>
+      <a href="index.html">Powrot</a>
+    </div>
+
+  </div>
+</body>
+
+</html>

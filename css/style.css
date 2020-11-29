@@ -1,0 +1,193 @@
+/*	#eb1e63, #13bc6f, #fabfd3*/
+*, *::before, *::after{
+	box-sizing: border-box;
+}
+body{
+	background-color: #eb1e63;
+	font-family: 'Heebo', sans-serif;
+	margin:0;
+	color: #fabfd3 ;
+	justify-content: center;
+	align-items: center;
+	display: block;
+	min-height: 100vh;
+	
+}
+
+.header{
+	top: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	padding: 10em;
+
+}
+
+.logo{
+	text-align: center;
+	display: block;
+
+}
+
+h1{
+	font-size: 40px;
+}
+
+.content{
+	width:100vw;
+	padding: 50px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-top: 2px solid #fabfd3;
+	border-bottom: 2px solid #fabfd3;	
+}
+
+.middle, .buttons{
+	width: 400px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+input[type=text], input[type=password], input[type=tel] {	
+	background-color: transparent;
+	color: #fabfd3;
+	border: none;
+	border-bottom: 2px solid;
+	width: 100%;
+	padding: 10px 10px 10px 45px;
+	font-size: 20px;
+	margin:.7em 0 .7em 0;
+	background-repeat: no-repeat;
+	background-position: 5px;
+	outline: none;
+}
+
+/*styl autouzupełnienia, raczej nie działa
+input:-webkit-autofill{
+	background-color: #fabfd3 !important;
+	background-image: none !important;
+}*/
+
+.content ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+	color: #fabfd3;
+}
+  ::-moz-placeholder { /* Firefox 19+ */
+	color: #fabfd3;
+  }
+:-ms-input-placeholder { /* IE 10+ */
+	color: #fabfd3;
+  }
+:-moz-placeholder { /* Firefox 18- */
+	color: #fabfd3;
+}
+
+input[type=text].email {
+	background-image: url(../icons/mail30.png);
+}
+
+input[type=password].password {
+	background-image: url(../icons/password30.png);
+}
+
+input[type=text].name {
+	background-image: url(../icons/oboje.png);
+}
+
+
+
+
+button, .addphoto {	
+	background-color: #13bc6f;
+	border: 2px solid #fabfd3;
+	width:400px;
+	font-size: 2em;
+	text-align: center;
+	color: #fff;
+	margin-top: 1em;
+	padding:10px;
+	cursor: pointer;
+	outline: none;
+	border-radius: 10px;
+}
+
+.lostpassword{
+	text-align: center;
+	cursor: pointer;
+
+}
+
+/*niżej tylko do rejestracji*/
+
+.container {
+	margin-bottom: 2em;
+	display: block;
+	width: 400px;
+	top: 50%;
+	left: 50%;
+}
+
+input[type=radio], input[type=file]{
+	display: none;
+}
+
+.male, .female, .bisexual, .mymale, .myfemale{
+	float: left;
+	display: inline;
+	background: #5a001e ;
+	width: 33%;
+	font-size: 20px;
+	border: 2px solid #fabfd3;
+	text-align: center;
+	cursor: pointer;
+	background-repeat: no-repeat;
+	background-position: 55% 20%;
+	background-size: 60px;
+	padding: 70px 0px 20px 0px;
+}
+.bisexual{
+	background-size: 100px;
+	background-position: 100% 20%;
+}
+.myfemale, .mymale{
+	width: 50%;
+}
+
+.male, .mymale {
+	background-image: url(../icons/facet30.png);
+	border-bottom-left-radius: 10px ;
+	border-top-left-radius: 10px ;
+}
+.female, .myfemale{
+	background-image: url(../icons/kobieta30.png);
+	border-bottom-right-radius: 10px ;
+	border-top-right-radius: 10px ;
+	border-left: 0px;
+}
+.bisexual{
+	background-image: url(../icons/oboje.png);
+	border-left: 0px;
+
+}
+
+input[type=radio]:checked + .male, input[type=radio]:checked + .mymale, input[type=radio]:checked + .female, input[type=radio]:checked + .myfemale, input[type=radio]:checked + .bisexual{
+	background-color: #13bc6f;
+}
+
+textarea {
+	background-color: transparent;
+	color: #fabfd3 ;
+	border: 2px solid #fabfd3;
+	margin-top: 2em;
+	border-radius: 10px;
+	padding: 10px;
+	height: 200px;
+	font-size: 18px;
+	overflow: auto;
+	resize: none;	
+	outline: none;
+}
+

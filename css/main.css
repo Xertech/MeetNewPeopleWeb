@@ -1,0 +1,460 @@
+/*	#eb1e63, #13bc6f, #fabfd3*/
+*, *::before, *::after{
+    margin:0;
+    box-sizing: border-box;
+}    
+body{
+        background-color: #2e352e;
+        font-family: 'Heebo', sans-serif;
+        display: flex;
+        height: 100vh;
+        align-items: stretch;
+        position: relative;
+        min-height: 550px;
+        min-width: 500px;
+
+    }    
+    
+    
+.middlesite{
+    margin-top: 50px;
+    margin-left: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.rightSite{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+    #dataCard
+    {
+        
+    }
+    #card {
+        display: flex;
+        height: 500px;
+        width: 370px;
+        justify-content: space-evenly;
+        align-items: flex-end;
+        border-radius: 5%;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
+        background-color: #fabfd3;
+        object-fit: cover;
+        background-size: cover;
+
+
+        /*transform: translateX(-50%) translateY(-50%) scale(0.95);*/
+    }
+
+    #currentUserCard
+    {
+        display: flex;
+        height: 500px;
+        width: 370px;
+        justify-content: space-evenly;
+        align-items: flex-end;
+        border-radius: 5%;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
+        background-color: #fabfd3;
+    }
+    .currentUserCard
+    {
+        display: flex;
+        height: 500px;
+        width: 370px;
+        justify-content: space-evenly;
+        align-items: flex-end;
+        border-radius: 5%;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
+        background-color: #fabfd3;
+    }
+    
+    #mySidenav{
+        margin-top: 50px;
+        background-color: #eb1e63;
+        left: 0;
+        width: 100px;
+        z-index: 6;
+    }
+
+    #usersCard{
+        background-color: #fff;
+        border: solid 1px #eb1e63;
+        
+        width: 300px;
+        height: 400px;
+        display: none;
+
+    }
+            
+/*
+    img {
+        width: 100%;
+        height: 100%;
+        
+    }
+    .img-container {
+
+        text-align: center;
+        display: block;
+    }
+  */
+
+/*===================TOP SIDE NAVBAR====================*/
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  /* The Modal (background) */
+.modal{
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+  
+  /* The Close Button */
+  .close, .closeProfile, .closeGender {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  
+  .close:hover,.closeProfile:hover,.closeProfile:focus,
+  .closeGender:hover,.closeGender:focus,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+    .navbar{
+            width: 100%;
+            height: 50px;
+            position: fixed;
+            background-color: #eb1e63;
+            top: 0;
+            justify-content: space-between;
+            align-items: center;
+            display: flex;
+            z-index: 100;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            font-size: 25px;
+            color: #fabfd3;
+            padding-left: 25px;
+            padding-right: 25px;
+            transition: 0.3s;
+        }
+        /*li{
+            display: none;
+        }*/
+    
+        .navbar a:hover {
+            color: #f1f1f1;
+        }
+        
+
+        @media screen and ( max-width: 768px ){
+
+            .navbar {
+                justify-content: space-around;
+                align-items: center;
+                display: flex;
+            }
+            .navbar a{
+                padding-left: 0;
+                padding-right: 0;
+            }
+        }
+        /*.navbarSettings {
+            display: flex;
+            position: absolute;
+            justify-content: center;
+            height: 300px;
+            width: 500px;
+            
+            color: white;
+            background-color: #92ca29;
+        }*/
+/*================RIGHT SIDEBAR WITH PAIRS===================*/
+        .mySidenav {
+        
+            height: 100%;
+            position: fixed;
+            overflow-x: hidden;
+            transition: 0.5s;
+            
+        }
+
+        .mySidenav a {
+    
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #fabfd3;
+            display: block;
+            transition: 0.3s;
+            outline: none;
+            z-index: 5;
+        }
+
+    .mySidecloseopenbutton{
+        
+        height: 50px;
+        width: 100%;            
+        
+        }
+    
+  /*  .mySlideOpenButton, .mySlideCloseButton{
+        height: 50px;
+        width: 100%;
+        padding: 50px 25px;
+        border: none;
+        background-image: url(../icons/back.png);
+        outline: none;
+        background-repeat: no-repeat;
+        cursor: pointer;
+
+       }
+*/    
+        @media screen and (max-height: 450px) {
+            .mySidenav {padding-top: 15px;}
+            .mySidenav a {font-size: 18px;}
+        }
+        body ::-webkit-scrollbar{
+            display: none;
+        }
+
+    .SidebardPhotoPictures{
+        border-radius: 50%;
+        height: 100px;
+        width: 100px;
+        background-size: cover;
+        outline: none;
+    }
+
+    
+        
+/*======================CHAT====================*/
+
+.ChatExitButton, .ChatSendButton, .ChatTextarea{
+    position: absolute;
+    background-color: #fff;
+    outline: none;
+    z-index: 3;
+
+
+}
+
+
+.container {
+
+        
+        position: relative;
+        border-radius: 20px;
+        border-bottom-right-radius: 0px ;       
+        background-color: #f73586d7;
+        color: white;
+        padding: 15px;
+        margin: 10px 20%;
+        width: 80%;
+        justify-content: start;
+
+        z-index: 2;
+        }
+    
+        /*.container::after {
+        content: "";
+        clear: both;
+        display: table;
+        }*/
+
+    .darker {
+        border: none;
+        background-color:#2e352e;
+        color: white;
+        justify-content: flex-end;
+        border-top-left-radius: 0px ;
+        border-bottom-right-radius: 20px ;   
+        margin: 10px 0;
+    
+
+    }
+
+    .ChatTextarea {	
+        border: solid 1px #fabfd3;
+        color: black;
+        width: 80%;
+        font-size: medium;
+        padding: 10px 10px 10px 10px;
+        margin: 10px 0 10px 5px;
+        outline: none;
+
+        border-radius: 20px;
+        bottom: 0;
+        left: 0;
+        }
+
+    .ChatTextarea:focus {
+        width: 80%;
+        height: auto;
+        max-height: 60%;
+        padding: 10px 10px 10px 10px;
+        margin: 10px 0 10px 5px;
+    }    
+
+    .ChatSendButton/*, .ChatExitButton*/ {   
+        border: none;
+        background-repeat: no-repeat;
+        cursor: pointer;
+    }
+
+    .ChatSendButton{
+        padding: 25px;
+        margin: 10px 5px 5px 0;
+        background-color: transparent;
+        right: 0;
+        bottom: 0;
+        
+        background-image: url(../icons/message_send.png);
+    }
+    .ChatExitButton{
+        top: 0;
+        right: 0;
+        border: none;
+        background-color: #eb1e63;
+        padding: 20px;
+        margin: 0;
+        font-weight: 700;
+        color: #fabfd3;
+    }
+    .ChatExitButton:hover{
+        color: #fff;
+        transition: 0.3s;
+    }
+
+   
+    
+
+
+
+/*======================CARDS====================*/
+    .leftbutton, .rightbutton {
+        border: none;
+        background-color: transparent;
+        background-image: url(../icons/nanie.png);
+        background-repeat: no-repeat;
+        cursor: pointer;
+        outline: none;
+
+        width: 80px;
+        height: 80px;
+        margin-bottom: 20px;
+    }
+
+    .rightbutton{
+        background-image: url(../icons/natak.png);
+    }
+ /*========================DISTANCESWITCH===============*/
+
+ .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }

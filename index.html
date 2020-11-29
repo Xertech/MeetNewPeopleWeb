@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta charset=utf-8 />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap" rel="stylesheet">
+
+
+  <title>Email/Password Authentication Example</title>
+
+  <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
+  <script src="index.js"></script>
+
+
+
+</head>
+
+<body>
+
+
+  <div class="header">
+    <div class="logo">
+      <h1></h1>
+    </div>
+  </div>
+
+
+
+  <div class="content">
+    <div class="middle">
+      <input class="email" type="text" id="email" name="email" placeholder="Email" />
+      <input class="password" type="password" id="password" name="password" placeholder="Hasło" />
+    </div>
+
+    <div class="buttons">
+      <button onclick="toggleSignIn()" name="signin">Zaloguj</button>
+    </div>
+
+    <div class="lostpassword" <h4>Nie pamiętam hasła.</h4></div>
+
+      <div class="buttons"></div>
+      <button id="myButton" class="float-left submit-button">Rejestracja</button>
+    </div>
+    <script type="text/javascript">
+      document.getElementById("myButton").onclick = function () {
+        location.href = "register.html";
+      };
+    </script>
+
+
+  </div>
+</body>
+
+</html>
