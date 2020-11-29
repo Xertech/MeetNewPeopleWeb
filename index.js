@@ -36,6 +36,10 @@
           firebase.auth().onAuthStateChanged(function(user) {
             //&&email_verified
             if (user) {
+              sessionStorage.setItem("AuthenticationState", "Authenticated");
+              //sessionStorage.setItem("AuthenticationExpires", addHours(1));
+              window.open('main.html','_self');
+
               window.location.replace("main.html");
             } else {
               window.alert("Zweryfikuj email");
@@ -63,7 +67,10 @@
     }
 
 
-  
+  //   function addHours(h) {    
+  //     this.setTime(this.getTime() + (h*60*60*1000)); 
+  //     return this;   
+  //  }
   
    
         
