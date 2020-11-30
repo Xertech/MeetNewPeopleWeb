@@ -14,18 +14,10 @@ var config = {
 function checkReportProfiles()
 {
     
-		var i=0;
-	   var j=0;
-	   var myArray=[];
-	   var idArray=[];
-     var data;
-     var notSwipedArray=[];
-     var photoArray=[];
      var descriptionArray=[];
      var nameArray=[];
      var genderArray=[];
      var lookingForArray=[];
-     var distanceArray=[];
      var foo = document.getElementById("card");
 
 
@@ -44,7 +36,6 @@ function checkReportProfiles()
      elementRight.appendChild(rightButton);
      elementRight.className = "rightbutton";
      var userReportArray=[];
-     var userArray=[];
     var photo=[];
      foo.appendChild(elementRight);
      db.collection("users").get()
@@ -66,11 +57,19 @@ function checkReportProfiles()
                     const photoRef = db.collection("users").doc(doc.id);
                      photoRef.get().then((docSnapshot) => {
                          if (docSnapshot.exists) { 
+
                           var index=0;
                           photo.push(doc.data().profileImageUrl);
+                          nameArray.push(doc.data().name);
+                          descriptionArray.push(doc.data().description);
+                          genderArray.push(doc.data().gender);
+                          lookingForArray.push(doc.data().lookingFor);
                           console.log(doc.id,doc.data().profileImageUrl);
                           document.getElementById("card").style.backgroundImage="url("+photo[index]+")";
-
+                          document.getElementById("userNameData").innerHTML=nameArray[index];
+                          document.getElementById("userDescriptionData").innerHTML=descriptionArray[index];
+                          document.getElementById("userGenderData").innerHTML=genderArray[index];
+                          document.getElementById("userWantedGenderData").innerHTML=lookingForArray[index];
 
                           
                           elementRight.onclick = function() {
@@ -78,11 +77,65 @@ function checkReportProfiles()
                             
                            if(index<userReportArray.length)
                            {
+                            db.collection("users").doc(userReportArray[index]).collection("Reports")
+                            .get()
+                            .then(res => {
+                              res.forEach(element => {
+                                element.ref.delete();
+                              });
+                            });
+
+                              console.log(userReportArray[index]);
+                            db.collection("Matches").where("id1","==",userReportArray[index])
+                            .get()
+                            .then(function(querySnapshot) {
+                                querySnapshot.forEach(function(doc) {
+                                  console.log(doc.id);
+                                    // doc.data() is never undefined for query doc snapshots
+                                    db.collection("Matches").doc(doc.id).delete().then(function() {
+                                        console.log("Document successfully deleted!");
+                                    }).catch(function(error) {
+                                        console.error("Error removing document: ", error);
+                                    });                           
+                                     });
+                            })
+                            .catch(function(error) {
+                                console.log("Error getting documents: ", error);
+                            });
+
+                            db.collection("Matches").where("id2","==",userReportArray[index])
+                            .get()
+                            .then(function(querySnapshot) {
+                                querySnapshot.forEach(function(doc) {
+                                  console.log(doc.id);
+                                    // doc.data() is never undefined for query doc snapshots
+                                    db.collection("Matches").doc(doc.id).delete().then(function() {
+                                        console.log("Document successfully deleted!");
+                                    }).catch(function(error) {
+                                        console.error("Error removing document: ", error);
+                                    });                           
+                                     });
+                            })
+                            .catch(function(error) {
+                                console.log("Error getting documents: ", error);
+                            });
+
+                            db.collection("users").doc(userReportArray[index]).set({
+                                banned:true
+                            })
+                            .then(function() {
+                                console.log("User zbanowany!");
+                            })
+                            .catch(function(error) {
+                                console.error("Error writing document: ", error);
+                            });
+
+
                              document.getElementById("card").style.backgroundImage="url("+photo[index+1]+")";
-                                // document.getElementById("userNameData").innerHTML=nameArray[index+1];
-                                // document.getElementById("userDescriptionData").innerHTML=descriptionArray[index+1];
-                              // document.getElementById("userGenderData").innerHTML=genderArray[index+1];
-                             // document.getElementById("userWantedGenderData").innerHTML=lookingForArray[index+1];
+                                 document.getElementById("userNameData").innerHTML=nameArray[index+1];
+                                 document.getElementById("userDescriptionData").innerHTML=descriptionArray[index+1];
+                               document.getElementById("userGenderData").innerHTML=genderArray[index+1];
+                              document.getElementById("userWantedGenderData").innerHTML=lookingForArray[index+1];
                             
                                
                               console.log("Przesunales w prawo: "+userReportArray[index]);
@@ -98,6 +151,10 @@ function checkReportProfiles()
                            }
                                                                          
                            
+                                }
+
+                                elementLeft.onclick = function() {
+                                  console.log("Nie bedziesz zbanowany");
                                 }
 
                          }
