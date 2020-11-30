@@ -35,7 +35,7 @@
           var email_verified=user.emailVerified;
           firebase.auth().onAuthStateChanged(function(user) {
             //&&email_verified
-            if (user&&user.banned!=true) {
+            if (user) {
               sessionStorage.setItem("AuthenticationState", "Authenticated");
               //sessionStorage.setItem("AuthenticationExpires", addHours(1));
               window.open('main.html','_self');

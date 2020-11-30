@@ -74,6 +74,8 @@ document.getElementById(matchId[id]).onclick = function()
   sendButton.id = id + 1;
   sendButton.className = "ChatSendButton";
    chatInputDiv.appendChild(sendButton);
+      
+   var reportDiv=document.getElementById("profileModalPicture");
 
   var chatExitDiv=document.createElement("div");
   chatExitDiv.className="chatExitDiv";
@@ -82,7 +84,10 @@ document.getElementById(matchId[id]).onclick = function()
     chatReportButton.id="reportButton";
     chatReportButton.textContent="report";
     chatReportButton.className="reportButtonClass";
-    chatExitDiv.appendChild(chatReportButton);
+  reportDiv.appendChild(chatReportButton);
+
+ 
+
 
   var closeButton = document.createElement("button");
   closeButton.id = id - 1000;
@@ -121,6 +126,46 @@ var nameRef = db.collection("users").doc(usersArray[id]);
 
 
   document.getElementById(id+1000).style.backgroundImage = "url(" + matchArray[id] + ")";
+
+  var modalProfile = document.getElementById("profileModalPicture");
+
+  // Get the button that opens the modal
+  var btnProfile = document.getElementById(id+1000);
+  
+  // Get the <span> element that closes the modal
+  var spanProfile = document.getElementsByClassName("closeProfile")[0];
+
+  // When the user clicks the button, open the modal 
+  btnProfile.onclick = function() {
+
+    var reportCardRef = db.collection("users").doc(usersArray[id]);
+    reportCardRef.get().then(function(doc) {
+if (doc.exists) {
+  document.getElementById("userDescriptionProfile").innerHTML=doc.data().description;				
+			   document.getElementById("userNameProfile").innerHTML=doc.data().name;				
+			   document.getElementById("userGenderProfile").innerHTML=doc.data().gender
+}
+    });
+  modalProfile.style.display = "block";
+  modalProfile.style.backgroundImage="url(" + matchArray[id] + ")";
+  
+
+  }
+
+  
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+  if (event.target == modalProfile) {
+    
+    modalProfile.style.display = "none";
+  }
+  
+  }
+  
+  
+  
+
+
 
   document.getElementById("reportButton").onclick=function()
   {
@@ -392,3 +437,4 @@ window.location.replace("index.html");
     }
 });
 }
+

@@ -31,10 +31,7 @@ body{
     right: 0;
     bottom: 0;
 }
-    #dataCard
-    {
-        
-    }
+  
     #card {
         display: flex;
         height: 500px;
@@ -126,7 +123,20 @@ body{
     display: block;
   }
 
-  /* The Modal (background) */
+.profileModalPicture
+{
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 200;
+    top: 50;
+    width: 400px; /* Full width */
+    height: 400px; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
 .modal{
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -149,7 +159,14 @@ body{
     border: 1px solid #888;
     width: 80%;
   }
-  
+
+  .modalImage {
+    margin: auto;
+    display: block;
+    width: 50%;
+    height: 60%;
+    max-width: 700px;
+ }
   /* The Close Button */
   .close, .closeProfile, .closeGender {
     color: #aaaaaa;
@@ -158,6 +175,16 @@ body{
     font-weight: bold;
   }
 
+#caption {
+   margin: auto;
+   display: block;
+   width: 80%;
+   max-width: 700px;
+   text-align: center;
+   color: #ccc;
+   padding: 10px 0;
+   height: 150px;
+}
   
   .close:hover,.closeProfile:hover,.closeProfile:focus,
   .closeGender:hover,.closeGender:focus,

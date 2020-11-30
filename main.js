@@ -68,7 +68,7 @@ if (!doc.exists) {
          var user = firebase.auth().currentUser;
     
         
-
+      //WYSWIETLANIE PROFILU!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!/
          const usersRef = db.collection("users").doc(doc.id).collection("SwipedBy").doc(user.uid)
                  usersRef.get().then((docSnapshot) => {
                    console.log(doc.id);
