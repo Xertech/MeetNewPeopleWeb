@@ -165,20 +165,31 @@ and open the template in the editor.
 		}
 
 				function updateTextInput(val) {
-		  document.getElementById('textInput').value=val;
-		  
-		  var user = firebase.auth().currentUser;
+		  if(val==250)
+		  {
+			document.getElementById('textInput').value="unlimited";
+
+			var user = firebase.auth().currentUser;
 		   firebase.auth().onAuthStateChanged(function(user) {
 			 if (user) {
 								// To update age and favorite color:
 					db.collection("users").doc(user.uid).update({
-						searchingRange:val
+						searchingRange:"unlimited"
 					})
 					
 									}
 		  
 
 		});
+
+		  }
+		  else
+		  {
+			document.getElementById('textInput').value=val;
+
+		  }
+		  
+		
 	}
 		
 			function updateSwitchInput(val) {

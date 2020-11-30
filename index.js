@@ -40,7 +40,7 @@
               //sessionStorage.setItem("AuthenticationExpires", addHours(1));
               window.open('main.html','_self');
 
-              window.location.replace("main.html");
+              //window.location.replace("main.html");
             } else {
               window.alert("Zweryfikuj email");
              // window.location.replace("index.html");
@@ -136,6 +136,7 @@ gender: choosenGender,
 lookingFor : wantedGender,
 aboutMe:description,
 lastLocation:"default",
+searchingRange:"unlimited",
 profileImageUrl: url
 
 })
@@ -304,12 +305,23 @@ docRef.get().then(function(doc) {
 			{
 				var aaRef = db.collection("users").doc(us.uid);
 aaRef.get().then(function(doc) {
-    if (doc.data().profileImageUrl=="default") {
-		window.alert("dodaj zdjecie");
-    } else {
+    if (!doc.exists) {
+     
+        } else {
+          console.log("Document data:", doc.data().lastLocation.latitude);
+          console.log("Document data:", doc.data().lastLocation.longitude);
+          var currentUserLat=doc.data().lastLocation.latitude;
+          var currentUserLong=doc.data().lastLocation.longitude;
 
-		console.log("jest");
-		var i=0;
+      var foo = document.getElementById("card");
+
+      var rangeRef = db.collection("users").doc(us.uid);
+      rangeRef.get().then(function(doc) {
+    			document.getElementById('textInput').value=doc.data().searchingRange;
+
+    
+  });
+      var i=0;
 	   var j=0;
 	   var myArray=[];
 	   var idArray=[];
@@ -322,7 +334,6 @@ aaRef.get().then(function(doc) {
      var lookingForArray=[];
      var distanceArray=[];
      var userLookingFor=document.getElementById("userWantedGender").textContent;
-     var foo = document.getElementById("card");
 
      var reportButton=document.createElement("button");
      var reportButtonText=document.createTextNode("REPORT");
@@ -360,17 +371,34 @@ aaRef.get().then(function(doc) {
       
               console.log(idArray.length);
 
-              var x = document.createElement("LABEL");
-              x.id="labelForDistance";
-              foo.appendChild(x);
+            
 
              const usersRef = db.collection("users").doc(doc.id).collection("SwipedBy").doc(user.uid)
                      usersRef.get().then((docSnapshot) => {
                        console.log(doc.id);
-                     
-                      var distance=document.getElementById("labelForDistance").textContent;
+
+                       console.log("Document data:", doc.data().lastLocation.latitude);
+                       console.log("Document data:", doc.data().lastLocation.longitude);
+                       var secondUserLat=doc.data().lastLocation.latitude;
+                       var secondUserLong=doc.data().lastLocation.longitude;
+                       console.log("Document data:", currentUserLat);
+                       console.log("Document data:", currentUserLong);
+
+
+                       var x = document.createElement("LABEL");
+                       x.id="labelForDistance";
+                       foo.appendChild(x);
+                       document.getElementById("labelForDistance").innerHTML=parseInt(calcCrow(currentUserLat,currentUserLong,secondUserLat,secondUserLong));
+
+                      // getUserDistance(doc.id);
+
+                      var distance=parseInt(document.getElementById("labelForDistance").innerText);
                       var wantedDistance=document.getElementById("textInput").value;
-                         if (!docSnapshot.exists&&doc.id!=user.uid&&doc.data().gender==userLookingFor) { 
+                      console.log("Szukany dystans: ",wantedDistance);
+                      console.log("Dany dystans: "+distance);
+                        //&&(distance<wantedDistance||wantedDistance=="unlimied")
+                         if (!docSnapshot.exists&&doc.id!=user.uid&&(doc.data().gender==userLookingFor||userLookingFor=='male Female')&&(distance<wantedDistance||wantedDistance=='unlimited')) { 
+                          
 
                            console.log(doc.data().gender,userLookingFor);
                           console.log("doc.id",doc.data());
@@ -400,7 +428,8 @@ aaRef.get().then(function(doc) {
                              
                               document.getElementById("card").style.backgroundImage="url("+photoArray[index]+")";
                             //  document.getElementById("lgabelForDistance").innerHTML=distanceArray[index];
-                            getUserDistance(notSwipedArray[index]);
+                            document.getElementById("labelForDistance").innerHTML=distanceArray[index];
+
                             document.getElementById("userNameData").innerHTML=nameArray[index];
                               document.getElementById("userDescriptionData").innerHTML=descriptionArray[index];
                               document.getElementById("userGenderData").innerHTML=genderArray[index];
@@ -485,7 +514,7 @@ aaRef.get().then(function(doc) {
   { 
     console.log("cos tam:",notSwipedArray[index]);
 
-    getUserDistance(notSwipedArray[index+1]);
+    document.getElementById("labelForDistance").innerHTML=distanceArray[index+1];
 
       document.getElementById("card").style.backgroundImage="url("+photoArray[index+1]+")";
       document.getElementById("userNameData").innerHTML=nameArray[index+1];
@@ -546,7 +575,7 @@ else{
             document.getElementById("userDescriptionData").innerHTML=descriptionArray[index+1];
             document.getElementById("userGenderData").innerHTML=genderArray[index+1];
             document.getElementById("userWantedGenderData").innerHTML=lookingForArray[index+1];
-            getUserDistance(notSwipedArray[index+1]);
+            document.getElementById("labelForDistance").innerHTML=distanceArray[index+1];
                
            
           console.log("Przesunales w lewo: "+notSwipedArray[index]);
@@ -652,7 +681,6 @@ secondRef.get().then(function(doc) {
 		var secondUserLat=doc.data().lastLocation.latitude;
 		var secondUserLong=doc.data().lastLocation.longitude;
 		document.getElementById("labelForDistance").innerHTML=calcCrow(currentUserLat,currentUserLong,secondUserLat,secondUserLong);
-
     } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
