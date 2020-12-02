@@ -41,9 +41,10 @@ and open the template in the editor.
 			   document.getElementById("userDescription").innerHTML=doc.data().description;				
 			   document.getElementById("userName").innerHTML=doc.data().name;				
 			   document.getElementById("userGender").innerHTML=doc.data().gender;				
-			   document.getElementById("userWantedGender").innerHTML=doc.data().lookingFor;				
+			   document.getElementById("userWantedGender").innerHTML=doc.data().lookingFor;	
 			   document.getElementById("currentUserCardID").style.backgroundImage="url("+photoUrl+")";				
-			   
+			   document.getElementById("reportButton").style.visibility="hidden";	
+          document.getElementById("deletePair").style.visibility="hidden";
 		   } else {
 			   // doc.data() will be undefined in this case
 			   console.log("No such document!");
@@ -70,32 +71,18 @@ and open the template in the editor.
   <!--
 				  TUTAJ ZACZYNA SIE ZMIENIANIE TEGO GORNEGO NAVBARA!!!!!!
 			  -->
-		<div class="dropdown">
-			<span>Ustawienia</span>
-			<div class="dropdown-content">
+		
 				<button id="profileBtn">Profile</button></br>
 				<button id="genderBtn">Gender</button>
 
-				<input type="file" id="photo" />
-				<button onclick="uploadImage(db)">Upload Image</button>
-			</div>
-		  </div>
+		
+			
 
 		  <div id="myModal" class="modal">
 
 			<!-- Modal content -->
 			<div class="modal-content">
 			  <span class="close">&times;</span>
-			  <!-- <label class="switch">
-
-				  <!-- <label id="chooseDIstance">Choose Distance</label>
-				<input type="checkbox" id="switchValue" value="false" onchange="updateSwitchInput(this.checked)">
-				<span class="slider round"></span>
-				<label id="chooseUnlimited">Unlimited</label> 
-
-				
-			  </label>
-			  <input type="text" id="switchText" value=""> -->
 
 			</div>
 		  
@@ -109,9 +96,26 @@ and open the template in the editor.
 						 Name:<div id="userName"></div></br>
 						 Description:<div id="userDescription"></div></br>
 						 Gender:<div id="userGender"></div></br>
-						Szukam:<div id="userWantedGender""></div></br>
-					<script>getCurrentUserInfo();</script>
-					 </div>
+						<div id="userWantedGender""></div></br>
+						<script>getCurrentUserInfo();</script>
+
+						<input class="name" type="text" placeholder="Imię" id="nameChange">
+
+
+						<h4>Jestem:</h4>
+						<div class="containerCC" >
+						  <input type="radio" id="maleChange" name="genderChange" value="male" checked>
+						  <label class="mymale" for="male">Mężczyzna</label></br>
+				  
+						  <input type="radio" id="femaleChange" name="genderChange" value="female" checked>
+						  <label class="myfemale" for="Female">Kobieta</label></br>
+
+						  <textarea placeholder="Krótki opis siebie." id="opisChange" name="opis" rows="4" cols="50"></textarea>
+						  <button id="zmienDane" onclick="changeData(db)">Zmien dane</button>
+
+						</div>
+
+											 </div>
 			 
 			  </div>
 			
@@ -340,7 +344,6 @@ and open the template in the editor.
 			Name:<div id="userNameData"></div></br>
 			Description:<div id="userDescriptionData"></div></br>
 			Gender:<div id="userGenderData"></div></br>
-		   Szukam:<div id="userWantedGenderData"></div></br>
 			
 	
 	</div>
@@ -349,7 +352,7 @@ and open the template in the editor.
 		Name:<div id="userNameProfile"></div></br>
 		Description:<div id="userDescriptionProfile"></div></br>
 		Gender:<div id="userGenderProfile"></div></br>
-		
+
 	  </div>
 
 

@@ -1,5 +1,19 @@
 function chatFunction()
 {
+   var chatReportButton=document.createElement("button");
+    chatReportButton.id="reportButton";
+    chatReportButton.textContent="report";
+    chatReportButton.className="reportButtonClass";
+    
+    var deletePair=document.createElement("button");
+    deletePair.id="deletePair";
+    deletePair.textContent="Usun pare";
+    var reportDiv=document.getElementById("currentUserCardID");
+    reportDiv.appendChild(deletePair);
+
+    reportDiv.appendChild(chatReportButton);
+    
+    
   var user = firebase.auth().currentUser;
     firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
@@ -19,7 +33,6 @@ function chatFunction()
         console.log(doc.id);
         matchId.push(doc.id);
         sendId.push(doc.id);
-
         }
         else if(doc.data().id2==user.uid)
         {
@@ -29,9 +42,7 @@ function chatFunction()
             console.log(doc.id);
             matchId.push(doc.id);
             sendId.push(doc.id);
-
-        }
-    
+        }  
     });
 
 var matchArray=[];
@@ -60,9 +71,10 @@ document.getElementById(matchId[id]).onclick = function()
   document.getElementById("usersCard").style.display = "block";
   
   var foo2 = document.getElementById("usersCard");
-    //DODALEM TUTAJ KLASY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   var chatInputDiv=document.createElement("div");
   chatInputDiv.className="chatInputDiv";
+
+
 
   var input = document.createElement("input");
   input.type = "text";  //A NIE "textarea"?
@@ -75,16 +87,11 @@ document.getElementById(matchId[id]).onclick = function()
   sendButton.className = "ChatSendButton";
    chatInputDiv.appendChild(sendButton);
       
-   var reportDiv=document.getElementById("profileModalPicture");
 
   var chatExitDiv=document.createElement("div");
   chatExitDiv.className="chatExitDiv";
     
-    var chatReportButton=document.createElement("button");
-    chatReportButton.id="reportButton";
-    chatReportButton.textContent="report";
-    chatReportButton.className="reportButtonClass";
-  reportDiv.appendChild(chatReportButton);
+   
 
  
 
@@ -117,6 +124,7 @@ var nameRef = db.collection("users").doc(usersArray[id]);
       }
     });
 
+  
 
   
 
@@ -127,30 +135,86 @@ var nameRef = db.collection("users").doc(usersArray[id]);
 
   document.getElementById(id+1000).style.backgroundImage = "url(" + matchArray[id] + ")";
 
-  var modalProfile = document.getElementById("profileModalPicture");
+  var modalProfile = document.getElementById("profileModal");
 
-  // Get the button that opens the modal
   var btnProfile = document.getElementById(id+1000);
   
-  // Get the <span> element that closes the modal
   var spanProfile = document.getElementsByClassName("closeProfile")[0];
+  
+  spanProfile.onclick=function()
+  {
+    modalProfile.style.display = "none";
 
-  // When the user clicks the button, open the modal 
+    var user = firebase.auth().currentUser;
+    firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      var currentUserRef = db.collection("users").doc(user.uid);
+ 
+      currentUserRef.get().then(function(doc) {
+        if (doc.exists) {
+          var photoUrl=doc.data().profileImageUrl;
+          document.getElementById("userDescription").innerHTML=doc.data().description;				
+          document.getElementById("userName").innerHTML=doc.data().name;				
+          document.getElementById("userGender").innerHTML=doc.data().gender;				
+          document.getElementById("userWantedGender").innerHTML=doc.data().lookingFor;	
+          document.getElementById("currentUserCardID").style.backgroundImage="url("+photoUrl+")";
+          // document.getElementById("reportButton").style.visibility="hidden";	
+          // document.getElementById("deletePair").style.visibility="hidden";
+          // document.getElementById("opisChange").style.visibility="hidden";
+          // document.getElementById("nameChange").style.visibility="hidden";
+          // document.getElementById("genderChange").style.visibility="hidden";
+          // document.getElementById("zmienDane").style.visibility="hidden";
+          // document.getElementById("maleChange").style.visibility="hidden";
+          // document.getElementById("femaleChange").style.visibility="hidden";
+          // document.getElementByClassName("mymale").style.visibility="hidden";
+          // document.getElementByClassName("myfemale").style.visibility="hidden";
+
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      }).catch(function(error) {
+        console.log("Error getting document:", error);
+      });
+ 
+    }});
+  }
+ 
   btnProfile.onclick = function() {
+    modalProfile.style.display = "block";
+    document.getElementById("reportButton").style.visibility="visible";	
+    document.getElementById("deletePair").style.visibility="visible";
+    document.getElementById("currentUserCardID").style.backgroundImage="url(" + matchArray[id] + ")";
+    document.getElementById("userGender").innerHTML=doc.data().gender;
+    document.getElementById("userName").innerHTML=doc.data().name;
+    document.getElementById("userDescription").innerHTML=doc.data().description;
+    // document.getElementById("userWantedGender").style.visibility="hidden";
+    // document.getElementById("opisChange").style.visibility="hidden";
+    //       document.getElementById("nameChange").style.visibility="hidden";
+    //       document.getElementById("femaleChange").style.visibility="hidden";
+    //       document.getElementById("maleChange").style.visibility="hidden";
+    //       document.getElementById("zmienDane").style.visibility="hidden";
+    //       document.getElementById("maleChange").style.visibility="hidden";
+    //       document.getElementById("femaleChange").style.visibility="hidden";
+    //       document.getElementByClassName("mymale").style.visibility="hidden";
+    //       document.getElementByClassName("myfemale").style.visibility="hidden";
+    }
 
-    var reportCardRef = db.collection("users").doc(usersArray[id]);
-    reportCardRef.get().then(function(doc) {
-if (doc.exists) {
-  document.getElementById("userDescriptionProfile").innerHTML=doc.data().description;				
-			   document.getElementById("userNameProfile").innerHTML=doc.data().name;				
-			   document.getElementById("userGenderProfile").innerHTML=doc.data().gender
-}
-    });
-  modalProfile.style.display = "block";
-  modalProfile.style.backgroundImage="url(" + matchArray[id] + ")";
+//   btnProfile.onclick = function() {
+
+//     var reportCardRef = db.collection("users").doc(usersArray[id]);
+//     reportCardRef.get().then(function(doc) {
+// if (doc.exists) {
+//   document.getElementById("userDescriptionProfile").innerHTML=doc.data().description;				
+// 			   document.getElementById("userNameProfile").innerHTML=doc.data().name;				
+// 			   document.getElementById("userGenderProfile").innerHTML=doc.data().gender
+// }
+//     });
+//   modalProfile.style.display = "block";
+//   modalProfile.style.backgroundImage="url(" + matchArray[id] + ")";
   
 
-  }
+//   }
 
   
   // When the user clicks anywhere outside of the modal, close it
@@ -161,7 +225,29 @@ if (doc.exists) {
   }
   
   }
+
   
+  document.getElementById("deletePair").onclick=function()
+  {
+    db.collection("Matches").doc(matchId[id]).delete().then(function() {
+      alert("Para usnieta",matchId[id]);
+    }).catch(function(error) {
+      console.error("Error removing document: ", error);
+  });
+  db.collection("users").doc(user.uid).collection("SwipedBy").doc(usersArray[id]).delete().then(function() {
+    console.log("Dane ze swipedBy usuniete");
+  }).catch(function(error) {
+    console.error("Error removing document: ", error);
+});
+db.collection("users").doc(usersArray[id]).collection("SwipedBy").doc(user.uid).delete().then(function() {
+  console.log("Dane ze swipedBy usuniete");
+}).catch(function(error) {
+  console.error("Error removing document: ", error);
+});
+
+  }
+
+     
   
   
 
@@ -218,6 +304,7 @@ if (doc.exists) {
                           }
                           else if(reportCount>=10)
                           {
+                            console.log(reportCount);
                             db.collection("users").doc(usersArray[id]).collection("Reports")
                             .get()
                             .then(res => {
@@ -304,6 +391,10 @@ if (doc.exists) {
             if (x.style.display === "none")
              {
                 x.style.display = "block";
+                document.getElementById("userNameProfile").style.visibility = "hidden";
+                document.getElementById("userDescriptionProfile").style.visibility = "hidden";
+                document.getElementById("userGenderProfile").style.visibility = "hidden";
+
               } 
               else
               {
@@ -339,7 +430,8 @@ writed:d
 
 
           
-        db.collection("Matches").doc(matchId[id]).collection("Messages").orderBy('writed','asc').get().then(function(querySnapshot) {
+        db.collection("Matches").doc(matchId[id]).collection("Messages").orderBy('writed','asc').get()
+        .then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
         console.log(id);
         console.log(doc.data().writerId);
@@ -350,7 +442,7 @@ writed:d
             var foo = document.getElementById("usersCard");
             var t = document.createTextNode(doc.data().content);     // Create a text node
     element.appendChild(t);
-  
+     element.focus();     
     messagesDiv.appendChild(element);
     foo.appendChild(messagesDiv);
               
@@ -362,8 +454,8 @@ writed:d
             var foo = document.getElementById("usersCard");
             var t = document.createTextNode(doc.data().content);     // Create a text node
     element.appendChild(t);
-    
-  
+    element.focus();     
+
     messagesDiv.appendChild(element);
     foo.appendChild(messagesDiv);
         }

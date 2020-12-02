@@ -44,53 +44,63 @@ if (!doc.exists) {
  reportButton.id="report";
  foo.appendChild(reportButton);
 
-
-
  var elementLeft = document.createElement("button");
  var leftButton = document.createTextNode("");
  elementLeft.appendChild(leftButton);
  elementLeft.className = "leftbutton";
-
  foo.appendChild(elementLeft);
 
+ var x = document.createElement("LABEL");
+                   x.id="labelForDistance";
+                   foo.appendChild(x);
 
  var elementRight = document.createElement("button");
  var rightButton = document.createTextNode("");
  elementRight.appendChild(rightButton);
  elementRight.className = "rightbutton";
-
  foo.appendChild(elementRight);
-    
+
+   
  db.collection("users").get()
  .then(function(querySnapshot) {
      querySnapshot.forEach(function(doc) {
     
          var user = firebase.auth().currentUser;
     
-        
-      //WYSWIETLANIE PROFILU!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!/
          const usersRef = db.collection("users").doc(doc.id).collection("SwipedBy").doc(user.uid)
                  usersRef.get().then((docSnapshot) => {
-                   console.log(doc.id);
-           
+                   console.log(doc.id);             
+                try
+                   {
+                     
                    var secondUserLat=doc.data().lastLocation.latitude;
-                   var secondUserLong=doc.data().lastLocation.longitude;
-                 
-
-                   var x = document.createElement("LABEL");
-                   x.id="labelForDistance";
-                   foo.appendChild(x);
+                   var secondUserLong=doc.data().lastLocation.longitude;                                 
                    document.getElementById("labelForDistance").innerHTML=parseInt(calcCrow(currentUserLat,currentUserLong,secondUserLat,secondUserLong));
-
-              
+                     
+                    
+                  }
+                   catch(e)
+                   {
+                      console.log(e);
+                   }        
+                 
+                
 
                   var distance=parseInt(document.getElementById("labelForDistance").innerText);
                   var wantedDistance=document.getElementById("textInput").value;
                   console.log("Szukany dystans: ",wantedDistance);
                   console.log("Dany dystans: "+distance);
-                     if (!docSnapshot.exists&&doc.id!=user.uid&&(doc.data().gender==userLookingFor||userLookingFor=='male Female')&&(distance<wantedDistance||wantedDistance=='unlimited')&&doc.data().banned!=true) { 
-                      
 
+                  document.getElementById("dataCard").style.visibility = "hidden";
+                  reportButton.style.visibility="hidden";
+
+                     if (!docSnapshot.exists&&doc.id!=user.uid&&(doc.data().gender==userLookingFor||userLookingFor=='male Female')&&(distance<wantedDistance||wantedDistance=='unlimited')&&doc.data().banned!=true) { 
+
+
+                      document.getElementById("dataCard").style.visibility = "visible";
+                      reportButton.style.visibility="visible";
+                    document.getElementById("labelForDistance").style.visibility="visible";            
+                     
                        console.log(doc.data().gender,userLookingFor);
                       console.log("doc.id",doc.data());
       notSwipedArray.push(doc.id);
@@ -115,13 +125,15 @@ if (!doc.exists) {
                           var index=0;
                          
 
-                         
+                          document.getElementById("dataCard").style.visibility = "visible";
+                          reportButton.style.visibility="visible";
+                          document.getElementById("labelForDistance").style.visibility="visible";
+
                           document.getElementById("card").style.backgroundImage="url("+photoArray[index]+")";
                           document.getElementById("labelForDistance").innerHTML=distanceArray[index];
                           document.getElementById("userNameData").innerHTML=nameArray[index];
                           document.getElementById("userDescriptionData").innerHTML=descriptionArray[index];
                           document.getElementById("userGenderData").innerHTML=genderArray[index];
-                          document.getElementById("userWantedGenderData").innerHTML=lookingForArray[index];
                          
                       console.log("index=",index);
 
@@ -206,7 +218,6 @@ if(index<notSwipedArray.length && notSwipedArray[index]!=user.uid)
   document.getElementById("userNameData").innerHTML=nameArray[index+1];
   document.getElementById("userDescriptionData").innerHTML=descriptionArray[index+1];
   document.getElementById("userGenderData").innerHTML=genderArray[index+1];
-  document.getElementById("userWantedGenderData").innerHTML=lookingForArray[index+1];
 
  
 console.log("Przesunales w prawo: "+notSwipedArray[index]);
@@ -239,17 +250,18 @@ db.collection("users").doc(notSwipedArray[index]).collection("SwipedBy").doc(use
       });          
 
 index++;
-
-
+  
   }
 
 
 else{
 window.alert("Koniec zdjec");
+document.getElementById("dataCard").style.visibility = "hidden";
+reportButton.style.visibility="hidden";
+document.getElementById("labelForDistance").style.visibility="hidden";
      index++;
 
 }
-
   }
 
   elementLeft.onclick = function() {
@@ -260,7 +272,6 @@ window.alert("Koniec zdjec");
         document.getElementById("userNameData").innerHTML=nameArray[index+1];
         document.getElementById("userDescriptionData").innerHTML=descriptionArray[index+1];
         document.getElementById("userGenderData").innerHTML=genderArray[index+1];
-        document.getElementById("userWantedGenderData").innerHTML=lookingForArray[index+1];
         document.getElementById("labelForDistance").innerHTML=distanceArray[index+1];
            
        
@@ -272,13 +283,15 @@ window.alert("Koniec zdjec");
           })                    
   
   index++;
-    
   
         }
   
   
   else{
     window.alert("Koniec zdjec");
+    document.getElementById("dataCard").style.visibility = "hidden";
+    reportButton.style.visibility="hidden";
+    document.getElementById("labelForDistance").style.visibility="hidden";
            index++;
   
   }
@@ -288,6 +301,7 @@ window.alert("Koniec zdjec");
 }
 else if(docSnapshot.exists)
 {
+  
     console.log("istnieje");
    
 }

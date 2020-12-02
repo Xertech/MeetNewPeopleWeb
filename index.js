@@ -40,10 +40,8 @@
               //sessionStorage.setItem("AuthenticationExpires", addHours(1));
               window.open('main.html','_self');
 
-              //window.location.replace("main.html");
             } else {
               window.alert("Zweryfikuj email");
-             // window.location.replace("index.html");
 
             }
           });
@@ -88,23 +86,19 @@
         return;
       }
 
-      var nme = document.getElementById("photo");
+      var photoRequired = document.getElementById("photo");
 
-      if(nme.value.length < 4) {
+      if(photoRequired.value.length < 4) {
         alert('Must Select any of your photo for upload!');
-        nme.focus();
+        photoRequired.focus();
         return ;
     }
-    
-    
+     
       var name=document.getElementById('name').value;
       var description = document.getElementById('opis').value;
       var choosenGender = document.querySelector('input[name="gender"]:checked').value;  
       var wantedGender = document.querySelector('input[name="wantedGender"]:checked').value;
 
-
-    
-      
 firebase.auth().createUserWithEmailAndPassword(email, password).then(function(){
   var user = firebase.auth().currentUser;
  
@@ -124,7 +118,7 @@ const metadata = {
 contentType: file.type
 };
 
-console.log(nme.value);
+console.log(photoRequired.value);
 
 const task = ref.child(user.uid).put(file, metadata);
 task
@@ -137,24 +131,13 @@ lookingFor : wantedGender,
 aboutMe:description,
 lastLocation:"default",
 searchingRange:"unlimited",
-banned:"false",
 profileImageUrl: url
 
 })
-  //getLocation(db,user.uid);
-  // console.log("Document successfully written!");
-  //   window.alert("Registered ");
-  //   window.location.replace("index.html");
-
 }).catch(console.error);
-
-//getLocation(db,user.uid);
     }
     getLocation(db,user.uid);
-
-  });
-    
-    // [END createwithemail]
+  });   
 }).
 catch(function(error) {
         // Handle Errors here.
@@ -213,23 +196,34 @@ catch(function(error) {
       firebase.auth().signOut();
       window.location.replace("index.html");
     }
-   function loadPhoto()
-    {
-      var user=firebase.auth().currentUser;
-      var docRef = db.collection("users").doc(user.uid)
-docRef.get().then(function(doc) {
-    if (doc.exists) {
-      document.getElementById("mySidebarRight").style.backgroundImage="url("+doc.data().profileImageUrl+")";
 
-    } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-    }
-}).catch(function(error) {
-    console.log("Error getting document:", error);
-});
-    }
 
+  function changeData(db)
+  {
   
+
+     
+      var name=document.getElementById('nameChange').value;
+      var description = document.getElementById('opisChange').value;
+      var choosenGender = document.querySelector('input[name="genderChange"]:checked').value;  
+      var user = firebase.auth().currentUser;
+
+  firebase.auth().onAuthStateChanged(function(user) {
+
+    if(user)
+    {
+db.collection("users").doc(user.uid).update({
+name:name,
+aboutMe:description,
+gender:choosenGender
+}).then(function()
+{
+  alert("Dane zmienone");
+})
+
+}
+
+  });
     
+}
 
