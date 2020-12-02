@@ -44,7 +44,7 @@ and open the template in the editor.
 			   document.getElementById("userWantedGender").innerHTML=doc.data().lookingFor;	
 			   document.getElementById("currentUserCardID").style.backgroundImage="url("+photoUrl+")";				
 			   document.getElementById("reportButton").style.visibility="hidden";	
-          document.getElementById("deletePair").style.visibility="hidden";
+		  document.getElementById("deletePair").style.visibility="hidden";
 		   } else {
 			   // doc.data() will be undefined in this case
 			   console.log("No such document!");
@@ -102,8 +102,7 @@ and open the template in the editor.
 						<input class="name" type="text" placeholder="Imię" id="nameChange">
 
 
-						<h4>Jestem:</h4>
-						<div class="containerCC" >
+						<div class="container" id="containerProfile" >
 						  <input type="radio" id="maleChange" name="genderChange" value="male" checked>
 						  <label class="mymale" for="male">Mężczyzna</label></br>
 				  
@@ -208,6 +207,8 @@ and open the template in the editor.
 
 				<script>
 					// Get the modal
+					document.getElementById("containerProfile").style.visibility="visible";	
+
 					var modalProfile = document.getElementById("profileModal");
 					// Get the button that opens the modal
 					var btnProfile = document.getElementById("profileBtn");
@@ -261,13 +262,12 @@ and open the template in the editor.
 						}
 						
 						// When the user clicks anywhere outside of the modal, close it
-						window.onclick = function(event) {
-						if (event.target == modalGender) {
-							modalGender.style.display = "none";
-						}
 						
-						}
-	
+						window.addEventListener("click", function(event) {
+    if (event.target == modalGender) {
+		modalGender.style.display = "none";
+	}
+});
 						</script>
 
 

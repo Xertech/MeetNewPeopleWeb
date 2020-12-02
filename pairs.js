@@ -140,7 +140,39 @@ var nameRef = db.collection("users").doc(usersArray[id]);
   var btnProfile = document.getElementById(id+1000);
   
   var spanProfile = document.getElementsByClassName("closeProfile")[0];
-  
+
+  window.addEventListener("click", function(event) {
+    if (event.target == modalProfile) {
+      modalProfile.style.display = "none";
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          var currentUserRef = db.collection("users").doc(user.uid);
+     
+          currentUserRef.get().then(function(doc) {
+            if (doc.exists) {
+              var photoUrl=doc.data().profileImageUrl;
+              document.getElementById("userDescription").innerHTML=doc.data().description;				
+              document.getElementById("userName").innerHTML=doc.data().name;				
+              document.getElementById("userGender").innerHTML=doc.data().gender;				
+              document.getElementById("userWantedGender").innerHTML=doc.data().lookingFor;	
+              document.getElementById("currentUserCardID").style.backgroundImage="url("+photoUrl+")";
+              document.getElementById("containerProfile").style.visibility="visible";	
+    
+               document.getElementById("reportButton").style.visibility="hidden";	
+               document.getElementById("deletePair").style.visibility="hidden";
+          
+    
+            } else {
+              // doc.data() will be undefined in this case
+              console.log("No such document!");
+            }
+          }).catch(function(error) {
+            console.log("Error getting document:", error);
+          });
+     
+        }});
+    }
+  });
   spanProfile.onclick=function()
   {
     modalProfile.style.display = "none";
@@ -158,17 +190,11 @@ var nameRef = db.collection("users").doc(usersArray[id]);
           document.getElementById("userGender").innerHTML=doc.data().gender;				
           document.getElementById("userWantedGender").innerHTML=doc.data().lookingFor;	
           document.getElementById("currentUserCardID").style.backgroundImage="url("+photoUrl+")";
-          // document.getElementById("reportButton").style.visibility="hidden";	
-          // document.getElementById("deletePair").style.visibility="hidden";
-          // document.getElementById("opisChange").style.visibility="hidden";
-          // document.getElementById("nameChange").style.visibility="hidden";
-          // document.getElementById("genderChange").style.visibility="hidden";
-          // document.getElementById("zmienDane").style.visibility="hidden";
-          // document.getElementById("maleChange").style.visibility="hidden";
-          // document.getElementById("femaleChange").style.visibility="hidden";
-          // document.getElementByClassName("mymale").style.visibility="hidden";
-          // document.getElementByClassName("myfemale").style.visibility="hidden";
+          document.getElementById("containerProfile").style.visibility="visible";	
 
+           document.getElementById("reportButton").style.visibility="hidden";	
+           document.getElementById("deletePair").style.visibility="hidden";
+     
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");
@@ -188,43 +214,11 @@ var nameRef = db.collection("users").doc(usersArray[id]);
     document.getElementById("userGender").innerHTML=doc.data().gender;
     document.getElementById("userName").innerHTML=doc.data().name;
     document.getElementById("userDescription").innerHTML=doc.data().description;
-    // document.getElementById("userWantedGender").style.visibility="hidden";
-    // document.getElementById("opisChange").style.visibility="hidden";
-    //       document.getElementById("nameChange").style.visibility="hidden";
-    //       document.getElementById("femaleChange").style.visibility="hidden";
-    //       document.getElementById("maleChange").style.visibility="hidden";
-    //       document.getElementById("zmienDane").style.visibility="hidden";
-    //       document.getElementById("maleChange").style.visibility="hidden";
-    //       document.getElementById("femaleChange").style.visibility="hidden";
-    //       document.getElementByClassName("mymale").style.visibility="hidden";
-    //       document.getElementByClassName("myfemale").style.visibility="hidden";
+    document.getElementById("containerProfile").style.visibility="hidden";	
+     document.getElementById("nameChange").style.visibility="hidden";
+
     }
 
-//   btnProfile.onclick = function() {
-
-//     var reportCardRef = db.collection("users").doc(usersArray[id]);
-//     reportCardRef.get().then(function(doc) {
-// if (doc.exists) {
-//   document.getElementById("userDescriptionProfile").innerHTML=doc.data().description;				
-// 			   document.getElementById("userNameProfile").innerHTML=doc.data().name;				
-// 			   document.getElementById("userGenderProfile").innerHTML=doc.data().gender
-// }
-//     });
-//   modalProfile.style.display = "block";
-//   modalProfile.style.backgroundImage="url(" + matchArray[id] + ")";
-  
-
-//   }
-
-  
-  // When the user clicks anywhere outside of the modal, close it
-  window.onclick = function(event) {
-  if (event.target == modalProfile) {
-    
-    modalProfile.style.display = "none";
-  }
-  
-  }
 
   
   document.getElementById("deletePair").onclick=function()
