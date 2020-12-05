@@ -20,6 +20,8 @@ and open the template in the editor.
 	<script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
 	<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
 	<script src="admin.js"></script>
+	
+
 	<link rel="stylesheet" href="css/main.css" />
 </head>
 
@@ -27,30 +29,57 @@ and open the template in the editor.
 
 	
 
-	<div class="navbar"></div>
-	
+	<div class="navbar">
 		<a href="#">Strona główna</a>
-
-
-		
-
-		 
-
-
-
-
-				
-
-				
-		
-					<!--<a href="#">Usun konto</a>-->
 		<a href="#" onclick="logout()">Wyloguj</a>
+		<button id="profileBtnAdmin">Stworz admina</button>
+
+		<div id="profileModalAdmin" class="modal">
+			<span class="closeProfile">&times;</span>
+
+			<div class="modal-content"> 
+				<input class="email" type="text" placeholder="Email" id="emailAdmin">
+				<input class="password" type="password" placeholder="Hasło" id="passwordAdmin">
+				<button id="createAdmin" onclick="createAdmin()">Stworz</button>
+			</div>
+			</div>
+
+		
 
 	</div>
+								
+	<script>
+
+		var modalProfile = document.getElementById("profileModalAdmin");
+		// Get the button that opens the modal
+		var btnProfile = document.getElementById("profileBtnAdmin");
+		
+		// Get the <span> element that closes the modal
+		var spanProfile = document.getElementsByClassName("closeProfile")[0];
+
+		// When the user clicks the button, open the modal 
+		btnProfile.onclick = function() {
+		modalProfile.style.display = "block";
+		}
 
 
-	</div>
+		
+		
+		// When the user clicks on <span> (x), close the modal
+		spanProfile.onclick = function() {
+		modalProfile.style.display = "none";
+		}
+		
+		// When the user clicks anywhere outside of the modal, close it
+		
+		window.addEventListener("click", function(event) {
+    if (event.target == modalProfile) {
+		modalProfile.style.display = "none";
+	}
+});
+	
 
+		</script>
 	
 	<div class="middlesite">
 
@@ -62,6 +91,13 @@ and open the template in the editor.
 			
 	
 	</div>
+	<div id="repotedFor">
+	Zdjecie:<div id="repotedForPicture"></div></br>
+	Opis:<div id="repotedForDescription"></div></br>
+	Wiadomosci:<div id="repotedForMessages"></div></br>
+	
+	</div>
+
 		<div id="card">
 		<script>
 		if (sessionStorage.getItem('AuthenticationState') === null) {

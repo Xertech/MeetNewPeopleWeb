@@ -10,6 +10,7 @@ function mainFunction()
             mainUserRef.get().then(function(doc) {
 if (!doc.exists) {
     console.log("User nie jest zalogowany");
+    window.open('index.html','_self');
  
     } else {
       console.log("Document data:", doc.data().lastLocation.latitude);
@@ -107,7 +108,6 @@ if (!doc.exists) {
       console.log(distance);
       distanceArray.push(distance);
      console.log(doc.id);
-      console.log("Nie istnieje sobie");  
    
       const photoRef = db.collection("users").doc(doc.id);
                  photoRef.get().then((docSnapshot) => {

@@ -59,6 +59,9 @@ function checkReportProfiles()
                          if (docSnapshot.exists) { 
 
                           var index=0;
+                                            
+                  
+
                           photo.push(doc.data().profileImageUrl);
                           nameArray.push(doc.data().name);
                           descriptionArray.push(doc.data().description);
@@ -73,10 +76,13 @@ function checkReportProfiles()
 
                           
                           elementRight.onclick = function() {
-
+                            console.log(userReportArray[index]);
                             
                            if(index<userReportArray.length)
                            {
+
+                        
+
                             db.collection("users").doc(userReportArray[index]).collection("Reports")
                             .get()
                             .then(res => {
@@ -154,7 +160,31 @@ function checkReportProfiles()
                                 }
 
                                 elementLeft.onclick = function() {
+                                  console.log(userReportArray[index]);
+                                  db.collection("users").doc(userReportArray[index+1]).collection("Reports").where("Reason", "==","Messages")
+                                  .get()
+                                  .then(function(querySnapshot) {
+                                    var countReportMessages=0;
+                                      querySnapshot.forEach(function(doc) {
+                                        countReportMessages++;
+                                          // doc.data() is never undefined for query doc snapshots
+                                          console.log(doc.id, " => ", doc.data()," tyle:",countReportMessages);
+                                        document.getElementById("repotedForMessages").innerHTML=countReportMessages;
+                                        });
+                                  })
+                                  .catch(function(error) {
+                                      console.log("Error getting documents: ", error);
+                                  });
+                             document.getElementById("card").style.backgroundImage="url("+photo[index+1]+")";
+                             document.getElementById("userNameData").innerHTML=nameArray[index+1];
+                             document.getElementById("userDescriptionData").innerHTML=descriptionArray[index+1];
+                           document.getElementById("userGenderData").innerHTML=genderArray[index+1];
+                          document.getElementById("userWantedGenderData").innerHTML=lookingForArray[index+1];
+                        
+                           
                                   console.log("Nie bedziesz zbanowany");
+                                  index++;
+
                                 }
 
                          }
@@ -327,4 +357,49 @@ function checkReportProfiles()
                         });
 
                     });
+}
+
+
+function logout(){
+  firebase.auth().signOut();
+  window.location.replace("index.html");
+}
+
+function createAdmin()
+{
+  var email = document.getElementById('emailAdmin').value;
+  var password = document.getElementById('passwordAdmin').value;
+
+  if (email.length < 4) {
+    alert('Please enter an email address.');
+    return;
+  }
+  if (password.length < 4) {
+    alert('Please enter a password.');
+    return;
+  }
+
+
+firebase.auth().createUserWithEmailAndPassword(email, password).then(function(){
+var user = firebase.auth().currentUser;
+
+user.sendEmailVerification().then(function()
+{
+console.log("EMail wysłany");
+})
+
+}).
+catch(function(error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // [START_EXCLUDE]
+    if (errorCode == 'auth/weak-password') {
+      alert('The password is too weak.');
+    } else {
+      alert(errorMessage);
+    }
+    console.log(error);
+    
+  });
 }

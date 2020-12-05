@@ -33,18 +33,31 @@
         {
           var user = firebase.auth().currentUser;
           var email_verified=user.emailVerified;
-          firebase.auth().onAuthStateChanged(function(user) {
-            //&&email_verified
-            if (user) {
-              sessionStorage.setItem("AuthenticationState", "Authenticated");
+
+          const adminRef = db.collection("users").doc(user.uid);
+          if(user)
+          {
+          adminRef.get()
+            .then((docSnapshot) => {
+              if (docSnapshot.exists) {
+                adminRef.onSnapshot((doc) => {
+                  sessionStorage.setItem("AuthenticationState", "Authenticated");
               //sessionStorage.setItem("AuthenticationExpires", addHours(1));
               window.open('main.html','_self');
+                });
+              } else {
+                sessionStorage.setItem("AuthenticationState", "Authenticated");
+                window.open('adminPage.html','_self');
 
-            } else {
-              window.alert("Zweryfikuj email");
-
-            }
+              }
           });
+        }
+        else{
+          console.log("cos");
+        }
+            //&&email_verified
+           
+     
 
         }).
         catch(function(error) {
@@ -194,6 +207,7 @@ catch(function(error) {
 
     function logout(){
       firebase.auth().signOut();
+
       window.location.replace("index.html");
     }
 
