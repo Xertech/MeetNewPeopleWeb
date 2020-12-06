@@ -80,6 +80,8 @@ document.getElementById(matchId[id]).onclick = function()
   input.type = "text";  //A NIE "textarea"?
   input.className = "ChatTextarea";
   input.id = id - 1;
+  input.autocomplete="off";
+
     chatInputDiv.appendChild(input);
 
   var sendButton = document.createElement("button");
@@ -151,10 +153,18 @@ var nameRef = db.collection("users").doc(usersArray[id]);
           currentUserRef.get().then(function(doc) {
             if (doc.exists) {
               var photoUrl=doc.data().profileImageUrl;
-              document.getElementById("userDescription").innerHTML=doc.data().description;				
-              document.getElementById("userName").innerHTML=doc.data().name;				
-              document.getElementById("userGender").innerHTML=doc.data().gender;				
-              document.getElementById("userWantedGender").innerHTML=doc.data().lookingFor;	
+              document.getElementById("opisChange").innerHTML=doc.data().description;				
+              document.getElementById("nameChange").value=doc.data().name;	
+              if(doc.data().gender=="male")
+              {
+             document.getElementById("maleChange").checked=true;				
+     
+              }
+              else
+              {
+             document.getElementById("femaleChange").checked=true;				
+     
+              }			
               document.getElementById("currentUserCardID").style.backgroundImage="url("+photoUrl+")";
               document.getElementById("containerProfile").style.visibility="visible";	
     
@@ -185,10 +195,19 @@ var nameRef = db.collection("users").doc(usersArray[id]);
       currentUserRef.get().then(function(doc) {
         if (doc.exists) {
           var photoUrl=doc.data().profileImageUrl;
-          document.getElementById("userDescription").innerHTML=doc.data().description;				
-          document.getElementById("userName").innerHTML=doc.data().name;				
-          document.getElementById("userGender").innerHTML=doc.data().gender;				
-          document.getElementById("userWantedGender").innerHTML=doc.data().lookingFor;	
+          
+          document.getElementById("opisChange").innerHTML=doc.data().description;				
+          document.getElementById("nameChange").value=doc.data().name;	
+          if(doc.data().gender=="male")
+          {
+         document.getElementById("maleChange").checked=true;				
+ 
+          }
+          else
+          {
+         document.getElementById("femaleChange").checked=true;				
+ 
+          }			
           document.getElementById("currentUserCardID").style.backgroundImage="url("+photoUrl+")";
           document.getElementById("containerProfile").style.visibility="visible";	
 
@@ -210,12 +229,24 @@ var nameRef = db.collection("users").doc(usersArray[id]);
     modalProfile.style.display = "block";
     document.getElementById("reportButton").style.visibility="visible";	
     document.getElementById("deletePair").style.visibility="visible";
+
+    var photoUrl=doc.data().profileImageUrl;
+			   document.getElementById("opisChange").innerHTML=doc.data().description;				
+			   document.getElementById("nameChange").value=doc.data().name;	
+			   if(doc.data().gender=="male")
+			   {
+				document.getElementById("maleChange").checked=true;				
+
+			   }
+			   else
+			   {
+				document.getElementById("femaleChange").checked=true;				
+
+			   }			
+	
+      
     document.getElementById("currentUserCardID").style.backgroundImage="url(" + matchArray[id] + ")";
-    document.getElementById("userGender").innerHTML=doc.data().gender;
-    document.getElementById("userName").innerHTML=doc.data().name;
-    document.getElementById("userDescription").innerHTML=doc.data().description;
-    document.getElementById("containerProfile").style.visibility="hidden";	
-     document.getElementById("nameChange").style.visibility="hidden";
+         document.getElementById("zmienDane").style.display="none";
 
     }
 
@@ -241,15 +272,164 @@ db.collection("users").doc(usersArray[id]).collection("SwipedBy").doc(user.uid).
 
   }
 
-     
+
+
+
   
+  var modalReport = document.getElementById("reportModal");
+
+  var btnReport = document.getElementById("reportButton");
   
+  var spanReport = document.getElementsByClassName("closeProfile")[0];
+
+  window.addEventListener("click", function(event) {
+    if (event.target == modalReport) {
+      modalReport.style.display = "none";
+      
+    }
+  });
 
 
-
-  document.getElementById("reportButton").onclick=function()
+ 
+  btnReport.onclick = function() {
+    modalReport.style.display = "block";
+    document.getElementById("reportForMessages").style.display="block";
+    document.getElementById("hideMessages").style.display="block";
+    document.getElementById("reportButtonSend").onclick=function()
   {
-            
+    if(document.getElementById("reportForPhoto").checked) {
+      var reportArray=[];
+      const t = firebase.firestore.Timestamp.fromDate(new Date());
+     const d = t.toDate();
+                   
+     db.collection("users").doc(usersArray[id]).collection("Reports").get().then(function(querySnapshot) {
+     querySnapshot.forEach(function(doc) {
+     reportArray.push(doc.id);
+                                   });
+   
+                                  var reportCount=0;
+                                 console.log("dlugosc tablicy: ",reportArray.length);
+                                    if(reportArray.length==0)
+                                   {
+                                     
+                                     
+                                      db.collection("users").doc(usersArray[id]).collection("Reports").doc().set({
+                                       ReportedBy:user.uid,
+                                        Reason:"Photo",
+                                      Time:d
+   
+                                      });
+                                      reportCount++;
+                                     
+                                   }
+                                    else
+                                    {
+   
+                                      db.collection("users").doc(usersArray[id]).collection("Reports").where("ReportedBy","==",user.uid).where("Reason","==","Photo")
+                                                .get()
+                                               .then(function(querySnapshot) {
+                                                   querySnapshot.forEach(function(doc) {
+                                                       // doc.data() is never undefined for query doc snapshots
+                                                       reportCount++;
+                                                   });
+                                                    if(reportCount<1)
+                                                   {
+                                                      db.collection("users").doc(usersArray[id]).collection("Reports").doc().set({
+                                                    ReportedBy:user.uid,
+                                                        Reason:"Photo",
+                                                        Time:d
+                                                 });
+                                                  }
+                                                   else
+                                                    {
+                                                    console.log("Juz byl reportowany");
+                                                    }
+                                                })
+                                               .catch(function(error) {
+                                                   console.log("Error getting documents: ", error);
+                                                });
+   
+                                     
+                                        
+                                      
+                                       console.log("Report count",reportCount);
+                                   }
+                                   
+                                 
+                                 
+                              })
+                            .catch(function(error) {
+                                  console.error("Error writing document: ", error);
+                              });                    
+    }
+    else if(document.getElementById('reportForDescription').checked)
+    {
+      var reportArray=[];
+      const t = firebase.firestore.Timestamp.fromDate(new Date());
+     const d = t.toDate();
+                   
+     db.collection("users").doc(usersArray[id]).collection("Reports").get().then(function(querySnapshot) {
+     querySnapshot.forEach(function(doc) {
+     reportArray.push(doc.id);
+                                   });
+   
+                                  var reportCount=0;
+                                 console.log("dlugosc tablicy: ",reportArray.length);
+                                    if(reportArray.length==0)
+                                   {
+                                     
+                                     
+                                      db.collection("users").doc(usersArray[id]).collection("Reports").doc().set({
+                                       ReportedBy:user.uid,
+                                        Reason:"Description",
+                                      Time:d
+   
+                                      });
+                                      reportCount++;
+                                     
+                                   }
+                                    else
+                                    {
+   
+                                      db.collection("users").doc(usersArray[id]).collection("Reports").where("ReportedBy","==",user.uid).where("Reason","==","Description")
+                                                .get()
+                                               .then(function(querySnapshot) {
+                                                   querySnapshot.forEach(function(doc) {
+                                                       // doc.data() is never undefined for query doc snapshots
+                                                       reportCount++;
+                                                   });
+                                                    if(reportCount<1)
+                                                   {
+                                                      db.collection("users").doc(usersArray[id]).collection("Reports").doc().set({
+                                                    ReportedBy:user.uid,
+                                                        Reason:"Description",
+                                                        Time:d
+                                                 });
+                                                  }
+                                                   else
+                                                    {
+                                                    console.log("Juz byl reportowany");
+                                                    }
+                                                })
+                                               .catch(function(error) {
+                                                   console.log("Error getting documents: ", error);
+                                                });
+   
+                                     
+                                        
+                                      
+                                       console.log("Report count",reportCount);
+                                   }
+                                   
+                                 
+                                 
+                              })
+                            .catch(function(error) {
+                                  console.error("Error writing document: ", error);
+                              });                    
+    }
+    else if(document.getElementById("reportForMessages").checked)
+    {
       var reportArray=[];
       var reportValue=0;
 
@@ -375,8 +555,13 @@ db.collection("users").doc(usersArray[id]).collection("SwipedBy").doc(user.uid).
     .catch(function(error) {
         console.error("Error writing document: ", error);
     });
-    
+    }
+  
+
+    }
   }
+     
+  
 
         document.getElementById(id-1000).onclick=function()
         {
@@ -418,6 +603,7 @@ writerId:user.uid,
 writed:d
 })
 
+document.getElementById(id-1).value="";
              
 
       }

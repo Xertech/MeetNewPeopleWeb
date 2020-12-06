@@ -38,10 +38,18 @@ and open the template in the editor.
 	   currentUserRef.get().then(function(doc) {
 		   if (doc.exists) {
 			   var photoUrl=doc.data().profileImageUrl;
-			   document.getElementById("userDescription").innerHTML=doc.data().description;				
-			   document.getElementById("userName").innerHTML=doc.data().name;				
-			   document.getElementById("userGender").innerHTML=doc.data().gender;				
-			   document.getElementById("userWantedGender").innerHTML=doc.data().lookingFor;	
+			   document.getElementById("opisChange").innerHTML=doc.data().description;				
+			   document.getElementById("nameChange").value=doc.data().name;	
+			   if(doc.data().gender=="male")
+			   {
+				document.getElementById("maleChange").checked=true;				
+
+			   }
+			   else
+			   {
+				document.getElementById("femaleChange").checked=true;				
+
+			   }			
 			   document.getElementById("currentUserCardID").style.backgroundImage="url("+photoUrl+")";				
 			   document.getElementById("reportButton").style.visibility="hidden";	
 		  document.getElementById("deletePair").style.visibility="hidden";
@@ -93,28 +101,52 @@ and open the template in the editor.
 
 			<div class="modal-content">
 					 <div id="currentUserCardID" class="currentUserCard">
-						 Name:<div id="userName"></div></br>
-						 Description:<div id="userDescription"></div></br>
-						 Gender:<div id="userGender"></div></br>
-						<div id="userWantedGender""></div></br>
-						<script>getCurrentUserInfo();</script>
-
-						<input class="name" type="text" placeholder="Imię" id="nameChange">
-
-
 						<div class="container" id="containerProfile" >
-						  <input type="radio" id="maleChange" name="genderChange" value="male" checked>
-						  <label class="mymale" for="male">Mężczyzna</label></br>
-				  
-						  <input type="radio" id="femaleChange" name="genderChange" value="female" checked>
-						  <label class="myfemale" for="Female">Kobieta</label></br>
 
-						  <textarea placeholder="Krótki opis siebie." id="opisChange" name="opis" rows="4" cols="50"></textarea>
-						  <button id="zmienDane" onclick="changeData(db)">Zmien dane</button>
+							<input class="name" type="text" id="nameChange"></br>
 
-						</div>
+							<input type="radio" id="maleChange" name="genderChange" value="male" >
+							<label class="mymale" for="male">Mężczyzna</label></br>
+					
+							<input type="radio" id="femaleChange" name="genderChange" value="female">
+							<label class="myfemale" for="Female">Kobieta</label></br>
+  
+							<textarea placeholder="Krótki opis siebie." id="opisChange" name="opis" rows="4" cols="50"></textarea>
+							<button id="zmienDane" onclick="changeData(db)">Zmien dane</button>
+  
+						  </div>
+						<div id="userWantedGender""></div></br>
+						<script>getCurrentUserInfo();
+					
+						</script>
+
+
 
 											 </div>
+			 
+			  </div>
+			
+		  </div>
+
+		  <div id="reportModal" class="modal">
+			<span class="closeGender">&times;</span>
+
+
+			<div class="modal-content">
+				
+				<h4>Zgłoś za:</h4></br>
+				<div class="container">
+				  <input type="radio" id="reportForPhoto" name="reportFor" value="Photo">
+				  <label class="photo" for="reportForPhoto">Zdjecie</label>
+		  
+				  <input type="radio" id="reportForDescription" name="reportFor" value="Description" >
+				  <label class="description" for="reportForDescription">Opis</label>
+		  
+				  <input type="radio" id="reportForMessages" name="reportFor" value="Messages">
+				  <label id="hideMessages" class="messages" for="reportForMessages">Wiadomosci</label>
+
+				  <button id="reportButtonSend" >Zglos</button>
+				</div>
 			 
 			  </div>
 			

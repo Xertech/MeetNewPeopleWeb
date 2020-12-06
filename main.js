@@ -137,73 +137,167 @@ if (!doc.exists) {
                          
                       console.log("index=",index);
 
-                          document.getElementById("report").onclick=function()
-                          {           
-                            var reportArray=[];
-                            const t = firebase.firestore.Timestamp.fromDate(new Date());
-                                  const d = t.toDate();
-                
-                              db.collection("users").doc(notSwipedArray[index]).collection("Reports").get().then(function(querySnapshot) {
-                                querySnapshot.forEach(function(doc) {
-                                    // doc.data() is never undefined for query doc snapshots
-                                    reportArray.push(doc.id);
-                                });
+                             
 
-                                var reportCount=0;
-                                console.log("dlugosc tablicy: ",reportArray.length);
-                                if(reportArray.length==0)
-                                {
-                                  
-                                  
-                                  db.collection("users").doc(notSwipedArray[index]).collection("Reports").doc().set({
-                                    ReportedBy:user.uid,
-                                    Reason:"Photo",
-                                    Time:d
+  var modalReport = document.getElementById("reportModal");
 
-                                  });
-                                  reportCount++;
-                                  
-                                }
-                                else
-                                {
+  var btnReport = document.getElementById("report");
+  
+  var spanReport = document.getElementsByClassName("closeProfile")[0];
 
-                                  db.collection("users").doc(notSwipedArray[index]).collection("Reports").where("ReportedBy","==",user.uid).where("Reason","==","Photo")
-                                            .get()
-                                            .then(function(querySnapshot) {
-                                                querySnapshot.forEach(function(doc) {
-                                                    // doc.data() is never undefined for query doc snapshots
-                                                    reportCount++;
-                                                });
-                                                if(reportCount<1)
-                                                {
-                                                  db.collection("users").doc(notSwipedArray[index]).collection("Reports").doc().set({
-                                                    ReportedBy:user.uid,
-                                                    Reason:"Photo",
-                                                    Time:d
-                                                  });
-                                                }
-                                                else
-                                                {
-                                                  console.log("Juz byl reportowany");
-                                                }
-                                            })
-                                            .catch(function(error) {
-                                                console.log("Error getting documents: ", error);
-                                            });
+  window.addEventListener("click", function(event) {
+    if (event.target == modalReport) {
+      modalReport.style.display = "none";
+      
+    }
+  });
 
-                                  
+
+ 
+  btnReport.onclick = function() {
+    modalReport.style.display = "block";
+    document.getElementById("reportForMessages").style.display="none";
+    document.getElementById("hideMessages").style.display="none";
+    document.getElementById("reportButtonSend").onclick=function()
+  {
+    if(document.getElementById("reportForPhoto").checked) {
+      var reportArray=[];
+      const t = firebase.firestore.Timestamp.fromDate(new Date());
+     const d = t.toDate();
+                   
+     db.collection("users").doc(notSwipedArray[index]).collection("Reports").get().then(function(querySnapshot) {
+     querySnapshot.forEach(function(doc) {
+     reportArray.push(doc.id);
+                                   });
+   
+                                  var reportCount=0;
+                                 console.log("dlugosc tablicy: ",reportArray.length);
+                                    if(reportArray.length==0)
+                                   {
                                      
+                                     
+                                      db.collection("users").doc(notSwipedArray[index]).collection("Reports").doc().set({
+                                       ReportedBy:user.uid,
+                                        Reason:"Photo",
+                                      Time:d
+   
+                                      });
+                                      reportCount++;
+                                     
+                                   }
+                                    else
+                                    {
+   
+                                      db.collection("users").doc(notSwipedArray[index]).collection("Reports").where("ReportedBy","==",user.uid).where("Reason","==","Photo")
+                                                .get()
+                                               .then(function(querySnapshot) {
+                                                   querySnapshot.forEach(function(doc) {
+                                                       // doc.data() is never undefined for query doc snapshots
+                                                       reportCount++;
+                                                   });
+                                                    if(reportCount<1)
+                                                   {
+                                                      db.collection("users").doc(notSwipedArray[index]).collection("Reports").doc().set({
+                                                    ReportedBy:user.uid,
+                                                        Reason:"Photo",
+                                                        Time:d
+                                                 });
+                                                  }
+                                                   else
+                                                    {
+                                                    console.log("Juz byl reportowany");
+                                                    }
+                                                })
+                                               .catch(function(error) {
+                                                   console.log("Error getting documents: ", error);
+                                                });
+   
+                                     
+                                        
+                                      
+                                       console.log("Report count",reportCount);
+                                   }
                                    
-                                   console.log("Report count",reportCount);
-                                }
-                                
-                              
-                              
-                          })
-                          .catch(function(error) {
-                              console.error("Error writing document: ", error);
-                          });
-                          }
+                                 
+                                 
+                              })
+                            .catch(function(error) {
+                                  console.error("Error writing document: ", error);
+                              });                    
+    }
+    else if(document.getElementById('reportForDescription').checked)
+    {
+      var reportArray=[];
+      const t = firebase.firestore.Timestamp.fromDate(new Date());
+     const d = t.toDate();
+                   
+     db.collection("users").doc(notSwipedArray[index]).collection("Reports").get().then(function(querySnapshot) {
+     querySnapshot.forEach(function(doc) {
+     reportArray.push(doc.id);
+                                   });
+   
+                                  var reportCount=0;
+                                 console.log("dlugosc tablicy: ",reportArray.length);
+                                    if(reportArray.length==0)
+                                   {
+                                     
+                                     
+                                      db.collection("users").doc(notSwipedArray[index]).collection("Reports").doc().set({
+                                       ReportedBy:user.uid,
+                                        Reason:"Description",
+                                      Time:d
+   
+                                      });
+                                      reportCount++;
+                                     
+                                   }
+                                    else
+                                    {
+   
+                                      db.collection("users").doc(notSwipedArray[index]).collection("Reports").where("ReportedBy","==",user.uid).where("Reason","==","Description")
+                                                .get()
+                                               .then(function(querySnapshot) {
+                                                   querySnapshot.forEach(function(doc) {
+                                                       // doc.data() is never undefined for query doc snapshots
+                                                       reportCount++;
+                                                   });
+                                                    if(reportCount<1)
+                                                   {
+                                                      db.collection("users").doc(notSwipedArray[index]).collection("Reports").doc().set({
+                                                    ReportedBy:user.uid,
+                                                        Reason:"Description",
+                                                        Time:d
+                                                 });
+                                                  }
+                                                   else
+                                                    {
+                                                    console.log("Juz byl reportowany");
+                                                    }
+                                                })
+                                               .catch(function(error) {
+                                                   console.log("Error getting documents: ", error);
+                                                });
+   
+                                     
+                                        
+                                      
+                                       console.log("Report count",reportCount);
+                                   }
+                                   
+                                 
+                                 
+                              })
+                            .catch(function(error) {
+                                  console.error("Error writing document: ", error);
+                              });                    
+    }
+  
+
+    }
+  }
+
+    
+                          
                           console.log(notSwipedArray[index]);
                        
 

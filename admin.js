@@ -74,6 +74,48 @@ function checkReportProfiles()
                           document.getElementById("userGenderData").innerHTML=genderArray[index];
                           document.getElementById("userWantedGenderData").innerHTML=lookingForArray[index];
 
+                          db.collection("users").doc(userReportArray[index]).collection("Reports").where("Reason", "==","Messages")
+                          .get()
+                          .then(function(querySnapshot) {
+                            var countReportMessages=0;
+                              querySnapshot.forEach(function(doc) {
+                                countReportMessages++;
+                                  // doc.data() is never undefined for query doc snapshots
+                                  console.log(doc.id, " => ", doc.data()," tyle:",countReportMessages);
+                                document.getElementById("reportedForMessages").innerHTML=countReportMessages;
+                                });
+                          })
+                          .catch(function(error) {
+                              console.log("Error getting documents: ", error);
+                          });
+                          db.collection("users").doc(userReportArray[index]).collection("Reports").where("Reason", "==","Photo")
+                          .get()
+                          .then(function(querySnapshot) {
+                            var countReportMessages=0;
+                              querySnapshot.forEach(function(doc) {
+                                countReportMessages++;
+                                  // doc.data() is never undefined for query doc snapshots
+                                  console.log(doc.id, " => ", doc.data()," tyle:",countReportMessages);
+                                document.getElementById("reportedForPicture").innerHTML=countReportMessages;
+                                });
+                          })
+                          .catch(function(error) {
+                              console.log("Error getting documents: ", error);
+                          });
+                          db.collection("users").doc(userReportArray[index]).collection("Reports").where("Reason", "==","Description")
+                          .get()
+                          .then(function(querySnapshot) {
+                            var countReportMessages=0;
+                              querySnapshot.forEach(function(doc) {
+                                countReportMessages++;
+                                  // doc.data() is never undefined for query doc snapshots
+                                  console.log(doc.id, " => ", doc.data()," tyle:",countReportMessages);
+                                document.getElementById("reportedForDescription").innerHTML=countReportMessages;
+                                });
+                          })
+                          .catch(function(error) {
+                              console.log("Error getting documents: ", error);
+                          });
                           
                           elementRight.onclick = function() {
                             console.log(userReportArray[index]);
@@ -135,7 +177,48 @@ function checkReportProfiles()
                             .catch(function(error) {
                                 console.error("Error writing document: ", error);
                             });
-
+                            db.collection("users").doc(userReportArray[index+1]).collection("Reports").where("Reason", "==","Photo")
+                                  .get()
+                                  .then(function(querySnapshot) {
+                                    var countReportMessages=0;
+                                      querySnapshot.forEach(function(doc) {
+                                        countReportMessages++;
+                                          // doc.data() is never undefined for query doc snapshots
+                                          console.log(doc.id, " => ", doc.data()," tyle:",countReportMessages);
+                                        document.getElementById("reportedForPicture").innerHTML=countReportMessages;
+                                        });
+                                  })
+                                  .catch(function(error) {
+                                      console.log("Error getting documents: ", error);
+                                  });
+                                  db.collection("users").doc(userReportArray[index+1]).collection("Reports").where("Reason", "==","Description")
+                                  .get()
+                                  .then(function(querySnapshot) {
+                                    var countReportMessages=0;
+                                      querySnapshot.forEach(function(doc) {
+                                        countReportMessages++;
+                                          // doc.data() is never undefined for query doc snapshots
+                                          console.log(doc.id, " => ", doc.data()," tyle:",countReportMessages);
+                                        document.getElementById("reportedForDescription").innerHTML=countReportMessages;
+                                        });
+                                  })
+                                  .catch(function(error) {
+                                      console.log("Error getting documents: ", error);
+                                  });
+                            db.collection("users").doc(userReportArray[index+1]).collection("Reports").where("Reason", "==","Messages")
+                            .get()
+                            .then(function(querySnapshot) {
+                              var countReportMessages=0;
+                                querySnapshot.forEach(function(doc) {
+                                  countReportMessages++;
+                                    // doc.data() is never undefined for query doc snapshots
+                                    console.log(doc.id, " => ", doc.data()," tyle:",countReportMessages);
+                                  document.getElementById("reportedForMessages").innerHTML=countReportMessages;
+                                  });
+                            })
+                            .catch(function(error) {
+                                console.log("Error getting documents: ", error);
+                            });
 
                              document.getElementById("card").style.backgroundImage="url("+photo[index+1]+")";
                                  document.getElementById("userNameData").innerHTML=nameArray[index+1];
@@ -160,6 +243,14 @@ function checkReportProfiles()
                                 }
 
                                 elementLeft.onclick = function() {
+
+                                  db.collection("users").doc(userReportArray[index]).collection("Reports")
+  .get()
+  .then(res => {
+    res.forEach(element => {
+      element.ref.delete();
+    });
+  });
                                   console.log(userReportArray[index]);
                                   db.collection("users").doc(userReportArray[index+1]).collection("Reports").where("Reason", "==","Messages")
                                   .get()
@@ -169,7 +260,35 @@ function checkReportProfiles()
                                         countReportMessages++;
                                           // doc.data() is never undefined for query doc snapshots
                                           console.log(doc.id, " => ", doc.data()," tyle:",countReportMessages);
-                                        document.getElementById("repotedForMessages").innerHTML=countReportMessages;
+                                        document.getElementById("reportedForMessages").innerHTML=countReportMessages;
+                                        });
+                                  })
+                                  .catch(function(error) {
+                                      console.log("Error getting documents: ", error);
+                                  });
+                                  db.collection("users").doc(userReportArray[index+1]).collection("Reports").where("Reason", "==","Photo")
+                                  .get()
+                                  .then(function(querySnapshot) {
+                                    var countReportMessages=0;
+                                      querySnapshot.forEach(function(doc) {
+                                        countReportMessages++;
+                                          // doc.data() is never undefined for query doc snapshots
+                                          console.log(doc.id, " => ", doc.data()," tyle:",countReportMessages);
+                                        document.getElementById("reportedForPicture").innerHTML=countReportMessages;
+                                        });
+                                  })
+                                  .catch(function(error) {
+                                      console.log("Error getting documents: ", error);
+                                  });
+                                  db.collection("users").doc(userReportArray[index+1]).collection("Reports").where("Reason", "==","Description")
+                                  .get()
+                                  .then(function(querySnapshot) {
+                                    var countReportMessages=0;
+                                      querySnapshot.forEach(function(doc) {
+                                        countReportMessages++;
+                                          // doc.data() is never undefined for query doc snapshots
+                                          console.log(doc.id, " => ", doc.data()," tyle:",countReportMessages);
+                                        document.getElementById("reportedForDescription").innerHTML=countReportMessages;
                                         });
                                   })
                                   .catch(function(error) {
