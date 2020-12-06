@@ -142,7 +142,6 @@ name: name,
 gender: choosenGender,
 lookingFor : wantedGender,
 aboutMe:description,
-lastLocation:"default",
 searchingRange:"unlimited",
 profileImageUrl: url
 

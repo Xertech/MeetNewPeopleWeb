@@ -40,6 +40,8 @@ and open the template in the editor.
 			   var photoUrl=doc.data().profileImageUrl;
 			   document.getElementById("opisChange").innerHTML=doc.data().description;				
 			   document.getElementById("nameChange").value=doc.data().name;	
+			   document.getElementById("userWantedGender").innerHTML=doc.data().lookingFor;	
+
 			   if(doc.data().gender=="male")
 			   {
 				document.getElementById("maleChange").checked=true;				
@@ -115,7 +117,7 @@ and open the template in the editor.
 							<button id="zmienDane" onclick="changeData(db)">Zmien dane</button>
   
 						  </div>
-						<div id="userWantedGender""></div></br>
+						<div id="userWantedGender"></div></br>
 						<script>getCurrentUserInfo();
 					
 						</script>
@@ -393,10 +395,6 @@ and open the template in the editor.
 		<script>
 			if (sessionStorage.getItem('AuthenticationState') === null) {
    window.open("AccessDenied.html", "_self");
-}
-//Is their authentication token still valid?
-else if (Date.now > new Date(sessionStorage.getItem('AuthenticationExpires'))) {
-      window.open("AccessDenied.html", "_self");
 }
 else {
 	mainFunction();
