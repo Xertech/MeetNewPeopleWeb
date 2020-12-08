@@ -396,7 +396,7 @@ and open the template in the editor.
 			if (sessionStorage.getItem('AuthenticationState') === null) {
    window.open("AccessDenied.html", "_self");
 }
-else {
+else if(sessionStorage.getItem('AuthenticationState') != null) {
 	mainFunction();
 
 }

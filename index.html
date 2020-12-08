@@ -33,7 +33,6 @@
   </div>
 
 
-
   <div class="content">
     <div class="middle">
       <input class="email" type="text" id="email" name="email" placeholder="Email" />
@@ -44,19 +43,28 @@
       <button onclick="toggleSignIn()" name="signin">Zaloguj</button>
     </div>
 
-    <div class="lostpassword" <h4>Nie pamiętam hasła.</h4></div>
+    <button class="lostpassword" id="resetBtn">Reset hasla</button>
+
+    <script>
+      
+      	document.getElementById("resetBtn").onclick = function() {
+                location.href = "passwordReset.html";
+
+					}
+    </script>
 
       <div class="buttons"></div>
       <button id="myButton" class="float-left submit-button">Rejestracja</button>
     </div>
+    
     <script type="text/javascript">
       document.getElementById("myButton").onclick = function () {
         location.href = "register.html";
       };
     </script>
 
-
   </div>
+
 </body>
 
 </html>
