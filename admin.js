@@ -14,6 +14,7 @@ var config = {
 function checkReportProfiles()
 {
     
+  
      var descriptionArray=[];
      var nameArray=[];
      var genderArray=[];
@@ -64,7 +65,7 @@ function checkReportProfiles()
 
                           photo.push(doc.data().profileImageUrl);
                           nameArray.push(doc.data().name);
-                          descriptionArray.push(doc.data().description);
+                          descriptionArray.push(doc.data().aboutMe);
                           genderArray.push(doc.data().gender);
                           lookingForArray.push(doc.data().lookingFor);
                           console.log(doc.id,doc.data().profileImageUrl);
@@ -74,6 +75,7 @@ function checkReportProfiles()
                           document.getElementById("userGenderData").innerHTML=genderArray[index];
                           document.getElementById("userWantedGenderData").innerHTML=lookingForArray[index];
 
+<<<<<<< HEAD
                           showReportCount(userReportArray,index);
                           banUser(userReportArray,index,photo,nameArray,descriptionArray,genderArray,lookingForArray);
 
@@ -84,6 +86,248 @@ function checkReportProfiles()
 }
 });
                 
+=======
+                          db.collection("users").doc(userReportArray[index]).collection("Reports").where("Reason", "==","Messages")
+                          .get()
+                          .then(function(querySnapshot) {
+                            var countReportMessages=0;
+                              querySnapshot.forEach(function(doc) {
+                                countReportMessages++;
+                                  // doc.data() is never undefined for query doc snapshots
+                                  console.log(doc.id, " => ", doc.data()," tyle:",countReportMessages);
+                                document.getElementById("reportedForMessages").innerHTML=countReportMessages;
+                                });
+                          })
+                          .catch(function(error) {
+                              console.log("Error getting documents: ", error);
+                          });
+                          db.collection("users").doc(userReportArray[index]).collection("Reports").where("Reason", "==","Photo")
+                          .get()
+                          .then(function(querySnapshot) {
+                            var countReportMessages=0;
+                              querySnapshot.forEach(function(doc) {
+                                countReportMessages++;
+                                  // doc.data() is never undefined for query doc snapshots
+                                  console.log(doc.id, " => ", doc.data()," tyle:",countReportMessages);
+                                document.getElementById("reportedForPicture").innerHTML=countReportMessages;
+                                });
+                          })
+                          .catch(function(error) {
+                              console.log("Error getting documents: ", error);
+                          });
+                          db.collection("users").doc(userReportArray[index]).collection("Reports").where("Reason", "==","Description")
+                          .get()
+                          .then(function(querySnapshot) {
+                            var countReportMessages=0;
+                              querySnapshot.forEach(function(doc) {
+                                countReportMessages++;
+                                  // doc.data() is never undefined for query doc snapshots
+                                  console.log(doc.id, " => ", doc.data()," tyle:",countReportMessages);
+                                document.getElementById("reportedForDescription").innerHTML=countReportMessages;
+                                });
+                          })
+                          .catch(function(error) {
+                              console.log("Error getting documents: ", error);
+                          });
+                          
+                          elementRight.onclick = function() {
+                            console.log(userReportArray[index]);
+                            
+                           if(index<userReportArray.length)
+                           {
+                            db.collection("users").doc(userReportArray[index+1]).collection("Reports").where("Reason", "==","Photo")
+                            .get()
+                            .then(function(querySnapshot) {
+                              var countReportMessages=0;
+                                querySnapshot.forEach(function(doc) {
+                                  countReportMessages++;
+                                    // doc.data() is never undefined for query doc snapshots
+                                    console.log(doc.id, " => ", doc.data()," tyle:",countReportMessages);
+                                  document.getElementById("reportedForPicture").innerHTML=countReportMessages;
+                                  });
+                            })
+                            .catch(function(error) {
+                                console.log("Error getting documents: ", error);
+                            });
+                            db.collection("users").doc(userReportArray[index+1]).collection("Reports").where("Reason", "==","Description")
+                            .get()
+                            .then(function(querySnapshot) {
+                              var countReportMessages=0;
+                                querySnapshot.forEach(function(doc) {
+                                  countReportMessages++;
+                                    // doc.data() is never undefined for query doc snapshots
+                                    console.log(doc.id, " => ", doc.data()," tyle:",countReportMessages);
+                                  document.getElementById("reportedForDescription").innerHTML=countReportMessages;
+                                  });
+                            })
+                            .catch(function(error) {
+                                console.log("Error getting documents: ", error);
+                            });
+                      db.collection("users").doc(userReportArray[index+1]).collection("Reports").where("Reason", "==","Messages")
+                      .get()
+                      .then(function(querySnapshot) {
+                        var countReportMessages=0;
+                          querySnapshot.forEach(function(doc) {
+                            countReportMessages++;
+                              // doc.data() is never undefined for query doc snapshots
+                              console.log(doc.id, " => ", doc.data()," tyle:",countReportMessages);
+                            document.getElementById("reportedForMessages").innerHTML=countReportMessages;
+                            });
+                      })
+                      .catch(function(error) {
+                          console.log("Error getting documents: ", error);
+                      });
+                        
+
+                            db.collection("users").doc(userReportArray[index]).collection("Reports")
+                            .get()
+                            .then(res => {
+                              res.forEach(element => {
+                                element.ref.delete();
+                              });
+                            });
+
+                              console.log(userReportArray[index]);
+                            db.collection("Matches").where("id1","==",userReportArray[index])
+                            .get()
+                            .then(function(querySnapshot) {
+                                querySnapshot.forEach(function(doc) {
+                                  console.log(doc.id);
+                                    // doc.data() is never undefined for query doc snapshots
+                                    db.collection("Matches").doc(doc.id).delete().then(function() {
+                                        console.log("Document successfully deleted!");
+                                    }).catch(function(error) {
+                                        console.error("Error removing document: ", error);
+                                    });                           
+                                     });
+                            })
+                            .catch(function(error) {
+                                console.log("Error getting documents: ", error);
+                            });
+
+                            db.collection("Matches").where("id2","==",userReportArray[index])
+                            .get()
+                            .then(function(querySnapshot) {
+                                querySnapshot.forEach(function(doc) {
+                                  console.log(doc.id);
+                                    // doc.data() is never undefined for query doc snapshots
+                                    db.collection("Matches").doc(doc.id).delete().then(function() {
+                                        console.log("Document successfully deleted!");
+                                    }).catch(function(error) {
+                                        console.error("Error removing document: ", error);
+                                    });                           
+                                     });
+                            })
+                            .catch(function(error) {
+                                console.log("Error getting documents: ", error);
+                            });
+
+                            db.collection("users").doc(userReportArray[index]).set({
+                                banned:true
+                            })
+                            .then(function() {
+                                console.log("User zbanowany!");
+                            })
+                            .catch(function(error) {
+                                console.error("Error writing document: ", error);
+                            });
+
+                        
+
+                             document.getElementById("card").style.backgroundImage="url("+photo[index+1]+")";
+                                 document.getElementById("userNameData").innerHTML=nameArray[index+1];
+                                 document.getElementById("userDescriptionData").innerHTML=descriptionArray[index+1];
+                               document.getElementById("userGenderData").innerHTML=genderArray[index+1];
+                              document.getElementById("userWantedGenderData").innerHTML=lookingForArray[index+1];
+                            
+                               
+                              console.log("Przesunales w prawo: "+userReportArray[index]);
+                          
+                                  
+                          
+                          index++;
+                           }
+                           else
+                           {
+                             console.log("Koniec userow do sprawdzenia!");
+                             index++;
+                           }
+                                                                         
+                           
+                                }
+
+                                elementLeft.onclick = function() {
+
+                                  db.collection("users").doc(userReportArray[index]).collection("Reports")
+  .get()
+  .then(res => {
+    res.forEach(element => {
+      element.ref.delete();
+    });
+  });
+                                  console.log(userReportArray[index]);
+                                  db.collection("users").doc(userReportArray[index+1]).collection("Reports").where("Reason", "==","Messages")
+                                  .get()
+                                  .then(function(querySnapshot) {
+                                    var countReportMessages=0;
+                                      querySnapshot.forEach(function(doc) {
+                                        countReportMessages++;
+                                          // doc.data() is never undefined for query doc snapshots
+                                          console.log(doc.id, " => ", doc.data()," tyle:",countReportMessages);
+                                        document.getElementById("reportedForMessages").innerHTML=countReportMessages;
+                                        });
+                                  })
+                                  .catch(function(error) {
+                                      console.log("Error getting documents: ", error);
+                                  });
+                                  db.collection("users").doc(userReportArray[index+1]).collection("Reports").where("Reason", "==","Photo")
+                                  .get()
+                                  .then(function(querySnapshot) {
+                                    var countReportMessages=0;
+                                      querySnapshot.forEach(function(doc) {
+                                        countReportMessages++;
+                                          // doc.data() is never undefined for query doc snapshots
+                                          console.log(doc.id, " => ", doc.data()," tyle:",countReportMessages);
+                                        document.getElementById("reportedForPicture").innerHTML=countReportMessages;
+                                        });
+                                  })
+                                  .catch(function(error) {
+                                      console.log("Error getting documents: ", error);
+                                  });
+                                  db.collection("users").doc(userReportArray[index+1]).collection("Reports").where("Reason", "==","Description")
+                                  .get()
+                                  .then(function(querySnapshot) {
+                                    var countReportMessages=0;
+                                      querySnapshot.forEach(function(doc) {
+                                        countReportMessages++;
+                                          // doc.data() is never undefined for query doc snapshots
+                                          console.log(doc.id, " => ", doc.data()," tyle:",countReportMessages);
+                                        document.getElementById("reportedForDescription").innerHTML=countReportMessages;
+                                        });
+                                  })
+                                  .catch(function(error) {
+                                      console.log("Error getting documents: ", error);
+                                  });
+                             document.getElementById("card").style.backgroundImage="url("+photo[index+1]+")";
+                             document.getElementById("userNameData").innerHTML=nameArray[index+1];
+                             document.getElementById("userDescriptionData").innerHTML=descriptionArray[index+1];
+                           document.getElementById("userGenderData").innerHTML=genderArray[index+1];
+                          document.getElementById("userWantedGenderData").innerHTML=lookingForArray[index+1];
+                        
+                           
+                                  console.log("Nie bedziesz zbanowany");
+                                  index++;
+
+                                }
+
+                         }
+                        });
+                  }
+                });
+            }
+          });
+           
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
 
                         });
 

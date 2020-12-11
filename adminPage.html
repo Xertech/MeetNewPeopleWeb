@@ -99,14 +99,11 @@ and open the template in the editor.
 
 		<div id="card">
 		<script>
-		if (sessionStorage.getItem('AuthenticationState') === null) {
+		if (sessionStorage.getItem('AuthenticationStateAdmin') === null) {
 			window.open("AccessDenied.html", "_self");
 		 }
-		 //Is their authentication token still valid?
-		 else if (Date.now > new Date(sessionStorage.getItem('AuthenticationExpires'))) {
-			   window.open("AccessDenied.html", "_self");
-		 }
-		 else {
+		
+		 else if(sessionStorage.getItem('AuthenticationStateAdmin') != null) {
             		checkReportProfiles();
 		 }
 </script>

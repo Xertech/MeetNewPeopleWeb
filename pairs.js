@@ -67,7 +67,10 @@ document.getElementById(matchId[id]).onclick = function()
 
   console.log(doc.id);
   console.log(matchId[id]);
+<<<<<<< HEAD
   messagesDiv.innerHTML="";
+=======
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
   document.getElementById("usersCard").innerHTML = "";
   document.getElementById("usersCard").style.overflow="auto";
   document.getElementById("usersCard").style.display = "block";
@@ -137,7 +140,11 @@ var nameRef = db.collection("users").doc(usersArray[id]);
   
   var modalReport = document.getElementById("reportModal");
   var btnReport = document.getElementById("reportButton"); 
+<<<<<<< HEAD
   var spanReport = document.getElementsByClassName("closeReport")[0];
+=======
+  var spanReport = document.getElementsByClassName("closeProfile")[0];
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
   
   reportUserFromPair(btnReport,id,usersArray);
 
@@ -151,6 +158,7 @@ var nameRef = db.collection("users").doc(usersArray[id]);
       closeMessageDiv(id);
       sendMessage(id,matchId);
       orderMessageByDate(id,matchId);
+<<<<<<< HEAD
 
           
         
@@ -191,6 +199,36 @@ if (doc.exists) {
     var t = document.createTextNode(doc.data().name);
     userNameSideNav.appendChild(t);
 
+=======
+
+          
+        
+}
+}
+
+  
+const result = document.querySelectorAll('#matchesDiv button').length;
+
+if(result<usersArray.length)
+{
+console.log("tyle",result)
+
+var element = document.createElement("button");
+db.collection("Matches").doc(matchId[result]).collection("Messages").orderBy('writed','desc').limit(1).get().then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+  console.log(doc.id);
+  console.log(doc.data().writerId);
+  var t = document.createTextNode(doc.data().content);
+  element.appendChild(t);
+
+  var getNameRef = db.collection("users").doc(doc.data().writerId);
+
+getNameRef.get().then(function(doc) {
+if (doc.exists) {
+    console.log("Document data:", doc.data().name);
+    var t = document.createTextNode(doc.data().name);
+    element.appendChild(t)
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
 } else {
     // doc.data() will be undefined in this case
     console.log("No such document!");
@@ -199,6 +237,7 @@ if (doc.exists) {
 console.log("Error getting document:", error);
 });
 
+<<<<<<< HEAD
 db.collection("Matches").doc(matchId[result]).collection("Messages").orderBy('writed','desc').limit(1).get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
         console.log(doc.id);
@@ -238,6 +277,27 @@ document.getElementById(matchId[result]).addEventListener("click", myFunction(re
         console.log("No such document!");
 }
 
+=======
+});
+});
+element.id = matchId[result];
+element.className = "SidebardPhotoPictures";
+var foo = document.getElementById("mySidenav");
+matchesDiv.appendChild(element);
+foo.appendChild(matchesDiv);
+document.getElementById(matchId[result]).style.backgroundImage = "url(" + matchArray[result] + ")";
+
+document.getElementById(matchId[result]).addEventListener("click", myFunction(result));
+}
+
+  
+        
+    } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+}
+
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
 }).catch(function(error) {
     console.log("Error getting document:", error);
 });
@@ -284,7 +344,11 @@ function closeMessageDiv(id)
   
   document.getElementById(id-1000).onclick=function()
   {
+<<<<<<< HEAD
 
+=======
+      
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
       var x = document.getElementById("usersCard");
       if (x.style.display === "none")
        {
@@ -299,6 +363,7 @@ function closeMessageDiv(id)
           x.style.display = "none";
             }
 
+<<<<<<< HEAD
 
   }
 }
@@ -572,6 +637,282 @@ function reportForMessages(id,usersArray)
 
 function deleteChoosenPair(id,matchId,usersArray)
 {
+=======
+
+  }
+}
+
+function sendMessage(id,matchId)
+{
+  document.getElementById(id+1).onclick = function()
+  {
+    var user = firebase.auth().currentUser;
+
+
+    const t = firebase.firestore.Timestamp.fromDate(new Date());
+    const d = t.toDate();
+
+var rt = document.createTextNode(document.getElementById(id-1).value);
+var dk = document.createElement("div");
+dk.className="container";
+
+dk.appendChild(rt);
+messagesDiv.appendChild(dk);
+
+
+db.collection("Matches").doc(matchId[id]).collection("Messages").doc().set({
+content: document.getElementById(id-1).value,
+writerId:user.uid,
+writed:d
+})
+
+document.getElementById(id-1).value="";
+         
+
+  }
+}
+
+function orderMessageByDate(id,matchId)
+{
+  var user = firebase.auth().currentUser;
+
+  db.collection("Matches").doc(matchId[id]).collection("Messages").orderBy('writed','asc').get()
+        .then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+        console.log(id);
+        console.log(doc.data().writerId);
+        if(doc.data().writerId==user.uid)
+        {
+            var element = document.createElement("div");
+            element.className="container";
+            var foo = document.getElementById("usersCard");
+            var t = document.createTextNode(doc.data().content);     // Create a text node
+    element.appendChild(t);
+     element.focus();     
+    messagesDiv.appendChild(element);
+    foo.appendChild(messagesDiv);
+              
+        }
+        else
+        {
+            var element = document.createElement("div");
+            element.className="container darker";
+            var foo = document.getElementById("usersCard");
+            var t = document.createTextNode(doc.data().content);     // Create a text node
+    element.appendChild(t);
+    element.focus();     
+
+    messagesDiv.appendChild(element);
+    foo.appendChild(messagesDiv);
+        }
+
+        
+    });
+});
+}
+
+function reportFor(id,usersArray,reason)
+{
+  var user = firebase.auth().currentUser;
+
+  var reportArray=[];
+      const t = firebase.firestore.Timestamp.fromDate(new Date());
+     const d = t.toDate();
+                   
+     db.collection("users").doc(usersArray[id]).collection("Reports").get().then(function(querySnapshot) {
+     querySnapshot.forEach(function(doc) {
+     reportArray.push(doc.id);
+                                   });
+   
+                                  var reportCount=0;
+                                 console.log("dlugosc tablicy: ",reportArray.length);
+                                    if(reportArray.length==0)
+                                   {
+                                     
+                                     
+                                      db.collection("users").doc(usersArray[id]).collection("Reports").doc().set({
+                                       ReportedBy:user.uid,
+                                        Reason:reason,
+                                      Time:d
+   
+                                      });
+                                      reportCount++;
+                                     
+                                   }
+                                    else
+                                    {
+   
+                                      db.collection("users").doc(usersArray[id]).collection("Reports").where("ReportedBy","==",user.uid).where("Reason","==",reason)
+                                                .get()
+                                               .then(function(querySnapshot) {
+                                                   querySnapshot.forEach(function(doc) {
+                                                       // doc.data() is never undefined for query doc snapshots
+                                                       reportCount++;
+                                                   });
+                                                    if(reportCount<1)
+                                                   {
+                                                      db.collection("users").doc(usersArray[id]).collection("Reports").doc().set({
+                                                    ReportedBy:user.uid,
+                                                        Reason:reason,
+                                                        Time:d
+                                                 });
+                                                  }
+                                                   else
+                                                    {
+                                                    console.log("Juz byl reportowany");
+                                                    }
+                                                })
+                                               .catch(function(error) {
+                                                   console.log("Error getting documents: ", error);
+                                                });
+   
+                                     
+                                        
+                                      
+                                       console.log("Report count",reportCount);
+                                   }
+                                   
+                                 
+                                 
+                              })
+                            .catch(function(error) {
+                                  console.error("Error writing document: ", error);
+                              });      
+}
+
+function reportForMessages(id,usersArray)
+{
+  var reportArray=[];
+  var reportValue=0;
+  var user = firebase.auth().currentUser;
+
+  const t = firebase.firestore.Timestamp.fromDate(new Date());
+        const d = t.toDate();
+    db.collection("users").doc(usersArray[id]).collection("Reports").get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+          // doc.data() is never undefined for query doc snapshots
+        reportValue++;
+        console.log("Tyle ma reportów",reportValue);
+          reportArray.push(doc.id);
+      });
+
+      var reportCount=0;
+      console.log("dlugosc tablicy: ",reportArray.length);
+      if(reportArray.length==0)
+      {
+        
+        
+        db.collection("users").doc(usersArray[id]).collection("Reports").doc().set({
+          ReportedBy:user.uid,
+          Reason:"Messages",
+          Time:d
+
+        });
+        reportCount++;
+        
+      }
+      else
+      {
+
+        db.collection("users").doc(usersArray[id]).collection("Reports").where("ReportedBy","==",user.uid).where("Reason","==","Messages")
+                  .get()
+                  .then(function(querySnapshot) {
+                      querySnapshot.forEach(function(doc) {
+                          // doc.data() is never undefined for query doc snapshots
+                          reportCount++;
+                      });
+                      if(reportCount<1)
+                      {
+                        db.collection("users").doc(usersArray[id]).collection("Reports").doc().set({
+                          ReportedBy:user.uid,
+                          Reason:"Messages",
+                          Time:d
+                        });
+                      }
+                      else if(reportCount>=10)
+                      {
+                        console.log(reportCount);
+                        db.collection("users").doc(usersArray[id]).collection("Reports")
+                        .get()
+                        .then(res => {
+                          res.forEach(element => {
+                            element.ref.delete();
+                          });
+                        });
+
+                        db.collection("Matches").where("id1","==",usersArray[id])
+                        .get()
+                        .then(function(querySnapshot) {
+                            querySnapshot.forEach(function(doc) {
+                              console.log(doc.id);
+                                // doc.data() is never undefined for query doc snapshots
+                                db.collection("Matches").doc(doc.id).delete().then(function() {
+                                    console.log("Document successfully deleted!");
+                                }).catch(function(error) {
+                                    console.error("Error removing document: ", error);
+                                });                           
+                                 });
+                        })
+                        .catch(function(error) {
+                            console.log("Error getting documents: ", error);
+                        });
+
+                        db.collection("Matches").where("id2","==",usersArray[id])
+                        .get()
+                        .then(function(querySnapshot) {
+                            querySnapshot.forEach(function(doc) {
+                              console.log(doc.id);
+                                // doc.data() is never undefined for query doc snapshots
+                                db.collection("Matches").doc(doc.id).delete().then(function() {
+                                    console.log("Document successfully deleted!");
+                                }).catch(function(error) {
+                                    console.error("Error removing document: ", error);
+                                });                           
+                                 });
+                        })
+                        .catch(function(error) {
+                            console.log("Error getting documents: ", error);
+                        });
+
+                        db.collection("users").doc(usersArray[id]).set({
+                            banned:true
+                        })
+                        .then(function() {
+                            console.log("User zbanowany!");
+                        })
+                        .catch(function(error) {
+                            console.error("Error writing document: ", error);
+                        });
+                       
+                      }
+
+                      else
+                      {
+                        console.log("Juz byl reportowany");
+                      }
+                     
+                  })
+                  .catch(function(error) {
+                      console.log("Error getting documents: ", error);
+                  });
+
+        
+           
+         
+         console.log("Report count",reportCount);
+      }
+      
+    
+    
+})
+.catch(function(error) {
+    console.error("Error writing document: ", error);
+});
+}
+
+function deleteChoosenPair(id,matchId,usersArray)
+{
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
   var user = firebase.auth().currentUser;
 
   document.getElementById("deletePair").onclick=function()
@@ -607,6 +948,7 @@ window.addEventListener("click", function(event) {
           if (doc.exists) {
             var photoUrl=doc.data().profileImageUrl;
             document.getElementById("opisChange").innerHTML=doc.data().aboutMe;				
+<<<<<<< HEAD
             document.getElementById("nameChange").value=doc.data().name;
             document.getElementById("city").value=doc.data().city;
     			  document.getElementById("job").value=doc.data().job;	
@@ -616,6 +958,9 @@ window.addEventListener("click", function(event) {
             document.getElementById("job").readOnly = false;	
 
 
+=======
+            document.getElementById("nameChange").value=doc.data().name;	
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
             if(doc.data().gender=="male")
             {
            document.getElementById("maleChange").checked=true;				
@@ -628,6 +973,10 @@ window.addEventListener("click", function(event) {
             }			
             document.getElementById("currentUserCardID").style.backgroundImage="url("+photoUrl+")";
             document.getElementById("containerProfile").style.visibility="visible";	
+<<<<<<< HEAD
+=======
+  
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
              document.getElementById("reportButton").style.visibility="hidden";	
              document.getElementById("deletePair").style.visibility="hidden";
         
@@ -648,6 +997,7 @@ function showPairData(id,matchArray,btnProfile,data)
 {
   btnProfile.onclick = function() {
     console.log(data);
+<<<<<<< HEAD
     modalProfile.style.display = "flex";
     document.getElementById("reportButton").style.visibility="visible";	
     document.getElementById("deletePair").style.visibility="visible";
@@ -662,6 +1012,13 @@ function showPairData(id,matchArray,btnProfile,data)
     document.getElementById("job").value=data.job;
 
     document.getElementById("opisChange").innerHTML=data.aboutMe;				
+=======
+    modalProfile.style.display = "block";
+    document.getElementById("reportButton").style.visibility="visible";	
+    document.getElementById("deletePair").style.visibility="visible";
+
+			   document.getElementById("opisChange").innerHTML=data.aboutMe;				
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
 			   document.getElementById("nameChange").value=data.name;	
 			   if(data.gender=="male")
 			   {
@@ -685,6 +1042,7 @@ function spanProfileClose(data,modalProfile,spanProfile)
 {
   spanProfile.onclick=function()
   {
+<<<<<<< HEAD
     document.getElementById("zmienDane").style.display="block";
     modalProfile.style.display = "none";
     firebase.auth().onAuthStateChanged(function(user) {
@@ -724,5 +1082,45 @@ function spanProfileClose(data,modalProfile,spanProfile)
         });
    
       }});
+=======
+    modalProfile.style.display = "none";
+    document.getElementById("zmienDane").style.display="block";
+
+    firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      var currentUserRef = db.collection("users").doc(user.uid);
+ 
+      currentUserRef.get().then(function(doc) {
+        if (doc.exists) {
+          var photoUrl=data.profileImageUrl;
+          
+          document.getElementById("opisChange").innerHTML=data.aboutMe;				
+          document.getElementById("nameChange").value=data.name;	
+          if(data.gender=="male")
+          {
+         document.getElementById("maleChange").checked=true;				
+ 
+          }
+          else
+          {
+         document.getElementById("femaleChange").checked=true;				
+ 
+          }			
+          document.getElementById("currentUserCardID").style.backgroundImage="url("+photoUrl+")";
+          document.getElementById("containerProfile").style.visibility="visible";	
+
+           document.getElementById("reportButton").style.visibility="hidden";	
+           document.getElementById("deletePair").style.visibility="hidden";
+     
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      }).catch(function(error) {
+        console.log("Error getting document:", error);
+      });
+ 
+    }});
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
   }
 }

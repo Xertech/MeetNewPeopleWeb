@@ -42,8 +42,13 @@ and open the template in the editor.
 			   document.getElementById("userWantedGender").innerHTML=doc.data().lookingFor;
 			   document.getElementById("opisChange").innerHTML=doc.data().aboutMe;				
 			   document.getElementById("nameChange").value=doc.data().name;	
+<<<<<<< HEAD
 			   document.getElementById("city").value=doc.data().city;
     			document.getElementById("job").value=doc.data().job;
+=======
+			   document.getElementById("userWantedGender").innerHTML=doc.data().lookingFor;	
+
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
 			   if(doc.data().gender=="male")
 			   {
 				document.getElementById("maleChange").checked=true;				
@@ -87,7 +92,20 @@ and open the template in the editor.
 							<label class="mymale" for="male">Mężczyzna</label>
 					
 							<input type="radio" id="femaleChange" name="genderChange" value="female">
+<<<<<<< HEAD
 							<label class="myfemale" for="Female">Kobieta</label>
+=======
+							<label class="myfemale" for="Female">Kobieta</label></br>
+  
+							<textarea placeholder="Krótki opis siebie." id="opisChange" name="opis" rows="4" cols="50"></textarea>
+							<button id="zmienDane" onclick="changeData(db)">Zmien dane</button>
+  
+						  </div>
+						<div id="userWantedGender"></div></br>
+						<script>getCurrentUserInfo();
+					
+						</script>
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
 
 							<input type="text" id="city" class="city" placeholder="Twoje miasto"></br>
 
@@ -390,8 +408,23 @@ and open the template in the editor.
 
 	</div>
 
+<<<<<<< HEAD
 
 	
+=======
+		<div id="card">
+		
+		<script>
+			if (sessionStorage.getItem('AuthenticationState') === null) {
+   window.open("AccessDenied.html", "_self");
+}
+else if(sessionStorage.getItem('AuthenticationState') != null) {
+	mainFunction();
+
+}
+		</script>
+		</div>
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
 	</div>
 </div>
 

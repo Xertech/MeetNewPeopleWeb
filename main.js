@@ -26,12 +26,18 @@ function mainFunction()
   var rangeRef = db.collection("users").doc(us.uid);
   rangeRef.get().then(function(doc) {
     document.getElementById('textInput').value=doc.data().searchingRange;
+<<<<<<< HEAD
     document.getElementById("textInput").readOnly = true;
+=======
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
 
 
 
+<<<<<<< HEAD
 });
 
+=======
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
  var notSwipedArray=[];
  var photoArray=[];
  var descriptionArray=[];
@@ -80,6 +86,7 @@ function mainFunction()
     
          const usersRef = db.collection("users").doc(doc.id).collection("SwipedBy").doc(user.uid)
                  usersRef.get().then((docSnapshot) => {
+<<<<<<< HEAD
                   
                   try{
                    var secondUserLat=doc.data().lastLocation.latitude;
@@ -93,6 +100,25 @@ function mainFunction()
                     console.log(e);
                   }
 
+=======
+                try
+                   {
+                     console.log(doc.id);
+                   var secondUserLat=doc.data().lastLocation.latitude;
+                   var secondUserLong=doc.data().lastLocation.longitude;                                 
+                   document.getElementById("labelForDistance").innerHTML=parseInt(calcCrow(currentUserLat,currentUserLong,secondUserLat,secondUserLong));
+                     
+                    
+                  }
+                   catch(e)
+                   {
+                      console.log(e);
+                   }        
+                                
+                  var distance=parseInt(document.getElementById("labelForDistance").innerText);
+                  var wantedDistance=document.getElementById("textInput").value;
+              
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
                   document.getElementById("dataCard").style.visibility = "hidden";
                   reportButton.style.visibility="hidden";
 
@@ -111,6 +137,7 @@ function mainFunction()
                       var index=0;          
                      
                       photoArray.push(doc.data().profileImageUrl);
+<<<<<<< HEAD
                       cityarray.push(doc.data().city);
                       jobarray.push(doc.data().job);
                       nameArray.push(doc.data().name);
@@ -125,6 +152,12 @@ function mainFunction()
                         genderArray.push("Kobieta");
 
                       }
+=======
+          
+                      nameArray.push(doc.data().name);
+                      descriptionArray.push(doc.data().aboutMe);
+                      genderArray.push(doc.data().gender);
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
                       lookingForArray.push(doc.data().lookingFor);
 
                       document.getElementById("dataCard").style.visibility = "visible";
@@ -133,14 +166,21 @@ function mainFunction()
                       document.getElementById("card").style.backgroundImage="url("+photoArray[index]+")";
                       document.getElementById("labelForDistance").innerHTML=distanceArray[index];
                       document.getElementById("userNameData").innerHTML=nameArray[index];
+<<<<<<< HEAD
                       document.getElementById("userCity").innerHTML=cityarray[index];
                       document.getElementById("userJob").innerHTML=jobarray[index];
 
+=======
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
                       document.getElementById("userDescriptionData").innerHTML=descriptionArray[index];
                       document.getElementById("userGenderData").innerHTML=genderArray[index];             
                       report(index,notSwipedArray);        
                                              
+<<<<<<< HEAD
 swipe(index,elementLeft,elementRight,distanceArray,photoArray,nameArray,descriptionArray,genderArray,notSwipedArray,jobarray,cityarray);
+=======
+swipe(index,elementLeft,elementRight,distanceArray,photoArray,nameArray,descriptionArray,genderArray,notSwipedArray);
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
                                                       
 }
 else if(docSnapshot.exists)
@@ -187,7 +227,11 @@ function toRad(Value)
     return Value * Math.PI / 180;
 }
 
+<<<<<<< HEAD
 function swipe(index,elementLeft,elementRight,distanceArray,photoArray,nameArray,descriptionArray,genderArray,notSwipedArray,jobarray,cityarray)
+=======
+function swipe(index,elementLeft,elementRight,distanceArray,photoArray,nameArray,descriptionArray,genderArray,notSwipedArray)
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
 {
   var user=firebase.auth().currentUser;
   elementRight.onclick = function() {
@@ -200,8 +244,12 @@ function swipe(index,elementLeft,elementRight,distanceArray,photoArray,nameArray
       document.getElementById("userNameData").innerHTML=nameArray[index+1];
       document.getElementById("userDescriptionData").innerHTML=descriptionArray[index+1];
       document.getElementById("userGenderData").innerHTML=genderArray[index+1];
+<<<<<<< HEAD
       document.getElementById("userCity").innerHTML=cityarray[index+1];
       document.getElementById("userJob").innerHTML=jobarray[index+1];
+=======
+          
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
     db.collection("users").doc(notSwipedArray[index]).collection("SwipedBy").doc(user.uid).set({
            swipe:true,
            swiped:user.uid
@@ -250,8 +298,12 @@ function swipe(index,elementLeft,elementRight,distanceArray,photoArray,nameArray
             document.getElementById("userDescriptionData").innerHTML=descriptionArray[index+1];
             document.getElementById("userGenderData").innerHTML=genderArray[index+1];
             document.getElementById("labelForDistance").innerHTML=distanceArray[index+1];
+<<<<<<< HEAD
             document.getElementById("userCity").innerHTML=cityarray[index+1];
             document.getElementById("userJob").innerHTML=jobarray[index+1];
+=======
+                            
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
           db.collection("users").doc(notSwipedArray[index]).collection("SwipedBy").doc(user.uid).set({
                  swipe:false,
                  swiped:user.uid
@@ -276,6 +328,7 @@ function swipe(index,elementLeft,elementRight,distanceArray,photoArray,nameArray
 function report(index,notSwipedArray)
 {
   var modalReport = document.getElementById("reportModal");
+<<<<<<< HEAD
   var btnReport = document.getElementById("report");
   
   var spanReport = document.getElementsByClassName("closeReport")[0];
@@ -283,6 +336,12 @@ function report(index,notSwipedArray)
   spanReport.onclick = function() {
     modalReport.style.display = "none";
     }
+=======
+
+  var btnReport = document.getElementById("report");
+  
+  var spanReport = document.getElementsByClassName("closeProfile")[0];
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
 
   window.addEventListener("click", function(event) {
     if (event.target == modalReport) {
@@ -290,9 +349,17 @@ function report(index,notSwipedArray)
       
     }
   });
+<<<<<<< HEAD
  
   btnReport.onclick = function() {
   modalReport.style.display="flex";
+=======
+
+
+ 
+  btnReport.onclick = function() {
+    modalReport.style.display = "block";
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
     document.getElementById("reportForMessages").style.display="none";
     document.getElementById("hideMessages").style.display="none";
     document.getElementById("reportButtonSend").onclick=function()
@@ -311,3 +378,20 @@ function report(index,notSwipedArray)
   }
 }
 
+<<<<<<< HEAD
+=======
+function saveUserData(photoArray,nameArray,descriptionArray,genderArray,lookingForArray,index)
+{
+  photoArray.push(doc.data().profileImageUrl);
+  nameArray.push(doc.data().name);
+  descriptionArray.push(doc.data().aboutMe);
+  genderArray.push(doc.data().gender);
+  lookingForArray.push(doc.data().lookingFor);
+
+  document.getElementById("card").style.backgroundImage="url("+photoArray[index]+")";
+  document.getElementById("labelForDistance").innerHTML=distanceArray[index];
+  document.getElementById("userNameData").innerHTML=nameArray[index];
+  document.getElementById("userDescriptionData").innerHTML=descriptionArray[index];
+  document.getElementById("userGenderData").innerHTML=genderArray[index];
+}
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
