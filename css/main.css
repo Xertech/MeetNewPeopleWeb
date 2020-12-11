@@ -4,49 +4,17 @@
     box-sizing: border-box;
 }    
 body{
-        background-color: #2e352e;
+        background-color: #2e352e white;
         font-family: 'Heebo', sans-serif;
         display: flex;
         height: 100vh;
         align-items: stretch;
         position: relative;
-        min-height: 550px;
+        min-height: 467px;
         min-width: 500px;
 
     }    
     
-    
-.middlesite{
-    margin-top: 50px;
-    margin-left: 100px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-}
-
-.rightSite{
-    position: absolute;
-    right: 0;
-    bottom: 0;
-}
-  
-    #card {
-        display: flex;
-        height: 500px;
-        width: 370px;
-        justify-content: space-evenly;
-        align-items: flex-end;
-        border-radius: 5%;
-        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
-        background-color: #fabfd3;
-        object-fit: cover;
-        background-size: cover;
-
-
-        /*transform: translateX(-50%) translateY(-50%) scale(0.95);*/
-    }
 
     #currentUserCard
     {
@@ -65,7 +33,9 @@ body{
         height: 500px;
         width: 370px;
         justify-content: space-evenly;
-        align-items: flex-end;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
         border-radius: 5%;
         box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
         background-color: #fabfd3;
@@ -78,16 +48,7 @@ body{
         width: 100px;
         z-index: 6;
     }
-
-    #usersCard{
-        background-color: #fff;
-        border: solid 1px #eb1e63;
-        
-        width: 300px;
-        height: 400px;
-        display: none;
-
-    }
+ 
             
 /*
     img {
@@ -107,43 +68,56 @@ body{
 .dropdown {
     position: relative;
     display: inline-block;
+    color: #fabfd3;
+    font-size: 25px;
   }
+
+.dropdown:hover{color: white;
+    transition: .3s;
+}
   
-  .dropdown-content {
+.dropdown-content {
     display: none;
     position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    flex-direction: column;
+    background-color: #eb1e63;
+    border-left: 5px dashed #fabfd3;
+    width: 300px;
+    height: 220px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
     padding: 12px 16px;
     z-index: 1;
   }
   
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-
-.profileModalPicture
-{
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 200;
-    top: 50;
-    width: 400px; /* Full width */
-    height: 400px; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  .genderBtn, .profileBtn{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 25px;
+    color: #fabfd3;
+    padding: 5px 50px;
+    cursor: pointer;
 }
+.genderBtn:hover, .profileBtn:hover{
+    color: white;
+    transition: .3s;
+
+}
+  
+  .dropdown:hover .dropdown-content {
+    display: flex;
+    transition: 5s ease-out;
+
+}
+
+  /* The Modal (background) */
 .modal{
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
+    padding-top: 60px; /* Location of the box */
+    align-self: start;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
@@ -153,38 +127,234 @@ body{
   
   /* Modal Content */
   .modal-content {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column wrap;
     background-color: #fefefe;
     margin: auto;
-    padding: 20px;
+    min-width: 390px;
+    min-height: 300px;
     border: 1px solid #888;
-    width: 80%;
+    padding: 20px;
+    overflow: auto;
+  }
+  .containerProfile{
+      width: 370px;
+      margin-top: 2em;
   }
 
-  .modalImage {
-    margin: auto;
-    display: block;
-    width: 50%;
-    height: 60%;
-    max-width: 700px;
- }
+  .reportForm{
+      display: flex;
+      flex-flow: column;
+  }
+
+
+  input[type=text].name, .email,.password,.city {
+    background-color: transparent;
+    color: #eb1e63;
+    border: none;
+    border-bottom: 2px solid;
+    padding: 10px;
+    font-size: 20px;
+    width: 100%;
+    margin: .7em 0 1.7em 0;
+    background-repeat: no-repeat;
+    background-position: 5px;
+    outline: none;
+  }
+  .city{
+      color: black;
+      border-bottom: 2px solid #fabfd3;
+  }
+  
+  .textarea{
+    background-color: transparent;
+    color: black;
+    border: 2px solid #fabfd3;
+    margin-top: 2em;
+    border-radius: 10px;
+    padding: 10px;
+    min-height: 200px;
+    width: 100%;
+    font-size: 18px;
+    overflow: auto;
+    resize: none;
+    outline: none;
+    
+  }
+
+  
+  
   /* The Close Button */
-  .close, .closeProfile, .closeGender {
+  .close, .closeProfile, .closeGender, .closeReport {
     color: #aaaaaa;
-    float: right;
     font-size: 28px;
     font-weight: bold;
+    position: absolute;
+    right: 8px;
+    top: 5px;
+  }
+  .close:hover,.closeProfile:hover,.closeProfile:focus,
+  .closeReport:hover,.closeReport:focus,
+  .closeGender:hover,.closeGender:focus,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
   }
 
-#caption {
-   margin: auto;
-   display: block;
-   width: 80%;
-   max-width: 700px;
-   text-align: center;
-   color: #ccc;
-   padding: 10px 0;
-   height: 150px;
+  .dataCard{  
+    display: flex;
+    align-self: flex-start;
+    justify-content: flex-start;
+    flex-flow: row wrap;
 }
+.listReports{
+    width: 123px;
+    padding-bottom: 20px;
+    
+}
+
+.userJob,.userCity,.km,.labelForDistance,.userName, .userDescription, .userGender, .userWantedGender, .userNameData, .userGenderData, .userDescriptionData, .userNameSideNav{
+    padding: 10px;
+    width: 370px;
+    overflow-wrap: break-word;
+    max-width: 370px ;
+  }
+  .userName, .userNameSideNav {
+    padding-top: 40px ;
+    color: #eb1e63;
+    font-weight: bold;
+    font-size: large;
+}
+.userGender {order:3;}
+
+.userJob{order: 4;}
+
+.userCity{width: fit-content;}
+
+.labelForDistance{order:1;
+width: fit-content;
+}
+
+.km {order: 2;width: 93px;}
+
+.userDescription{order:5;}
+
+
+  .slip{
+      width: 100%;
+      margin: 20px 0;
+      padding: 0;
+      border: none;
+      outline: none; 
+    -webkit-appearance: none;
+     height: 40px;
+        background: #fabfd3 ;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+  }
+      
+ .slip::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 35px;
+        height: 35px;
+        background: #a853ca;
+        cursor: pointer;
+      }
+      
+.slipValue{
+    font-size: 18px;
+    width: 100%;
+    padding: 0 50px;
+    text-align: center;
+    cursor: auto ;
+    border: none;
+    outline: none;
+}
+/******************************KOD Z REJESTRACJI********************/
+.ContainerSettings, .scrollDistance{
+    height: 157px ;
+    width: 390px;
+    padding: 20px 0 20px 0;   
+}
+  input[type=radio], input[type=file]{
+	display: none;
+}
+  .male, .female, .bisexual, .mymale, .myfemale, .reportReason{
+    color: #fabfd3;
+	float: left;
+	display: inline;
+	background: #5a001e ;
+	width: 130px;
+	font-size: 20px;
+	border: 2px solid #fabfd3;
+	text-align: center;
+	cursor: pointer;
+	background-repeat: no-repeat;
+	background-position: 55% 20%;
+	background-size: 60px;
+    padding: 70px 0px 20px 0px;
+}
+.reportReason{
+    width: 370px;
+    padding: 20px;
+    margin-top: 20px;    
+}
+input[type=radio]:checked + .reportReason{
+    background-color: #13bc6f;
+    color: white;
+}
+
+.bisexual{
+	background-size: 100px;
+	background-position: 100% 20%;
+}
+.myfemale, .mymale{
+	width: 50%;
+}
+
+.male, .mymale {
+	background-image: url(../icons/facet30.png);
+	border-bottom-left-radius: 10px ;
+	border-top-left-radius: 10px ;
+}
+.female, .myfemale{
+	background-image: url(../icons/kobieta30.png);
+	border-bottom-right-radius: 10px ;
+	border-top-right-radius: 10px ;
+	border-left: 0px;
+}
+.bisexual{
+	background-image: url(../icons/oboje.png);
+	border-left: 0px;
+
+}
+input[type=radio]:checked + .male, input[type=radio]:checked + .mymale, input[type=radio]:checked + .female, input[type=radio]:checked + .myfemale, input[type=radio]:checked + .bisexual{
+	background-color: #13bc6f;
+}
+
+.zmienDane,.reportButtonConfirm{	
+	background-color: #13bc6f;
+    border: 2px solid #fabfd3;
+	width: 370px;
+	font-size: 2em;
+	text-align: center;
+	color: #fff;
+	margin-top: 1em;
+	padding:10px;
+	cursor: pointer;
+	outline: none;
+	border-radius: 10px;
+}
+.reportButtonConfirm{
+    background-color: red;
+}
+/******************************************************/
   
   .close:hover,.closeProfile:hover,.closeProfile:focus,
   .closeGender:hover,.closeGender:focus,
@@ -245,10 +415,10 @@ body{
             color: white;
             background-color: #92ca29;
         }*/
-/*================RIGHT SIDEBAR WITH PAIRS===================*/
+/*================LEFT SIDEBAR WITH PAIRS===================*/
         .mySidenav {
         
-            height: 100%;
+            height: 100vh;
             position: fixed;
             overflow-x: hidden;
             transition: 0.5s;
@@ -264,35 +434,54 @@ body{
             display: block;
             transition: 0.3s;
             outline: none;
-            z-index: 5;
+            /*z-index: 5;*/
         }
 
     .mySidecloseopenbutton{
-        
+        position: relative;
         height: 50px;
         width: 100%;            
         
         }
     
-  /*  .mySlideOpenButton, .mySlideCloseButton{
-        height: 50px;
-        width: 100%;
-        padding: 50px 25px;
-        border: none;
-        background-image: url(../icons/back.png);
+    .mySlideOpenButton, .mySlideCloseButton{
+        position: absolute;
+        padding: 20px 50px;
+        background-position: 50%;
         outline: none;
         background-repeat: no-repeat;
         cursor: pointer;
+        background-image: url(../icons/next.png);
 
-       }
-*/    
+        }
+
+  .mySlideCloseButton{
+        padding: 20px 150px;
+        background-image: url(../icons/back.png);
+      
+    }
+
+/*
         @media screen and (max-height: 450px) {
             .mySidenav {padding-top: 15px;}
             .mySidenav a {font-size: 18px;}
         }
-        body ::-webkit-scrollbar{
+*/  
+body ::-webkit-scrollbar{
             display: none;
         }
+
+    .statusProfile{
+        display: flex;
+        width: 300px;
+        margin-top: 7px;
+        position: relative;
+        padding: 0;
+        border: none;
+        background-repeat: no-repeat;
+        outline: none;
+        background-color: transparent; 
+    }
 
     .SidebardPhotoPictures{
         border-radius: 50%;
@@ -300,129 +489,283 @@ body{
         width: 100px;
         background-size: cover;
         outline: none;
+        cursor: pointer;
+        background-position: center;
     }
-
-    
+    .newsPairs{
+        display: flex;
+        justify-content: center;
+        flex-flow: column-reverse;
+        width: 200px;
+        height: 100px;
+        background-color: #fabfd3;
+        border-radius: 25px;
+    }
+    .userNameSideNav, .newMessProfile{
+        padding: 10px;
+        width: 100%;
+        text-align: start;
+        font-size: large;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
         
 /*======================CHAT====================*/
 
-.ChatExitButton, .ChatSendButton, .ChatTextarea{
+/*.ChatExitButton, .ChatSendButton, .ChatTextarea{
     position: absolute;
     background-color: #fff;
     outline: none;
-    z-index: 3;
+}*/
+.rightSite{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+}
 
+#usersCard{
+    background-color: #fff;
+    border: solid 1px #eb1e63;
+    width: 300px;
+    height: 400px;
+    display: none;
+    
 
 }
 
+.chatExitDiv{
+    position: absolute;
+   
+    height: 60px;
+    width: 298px;
+    border: none;
+    font-size: 20px;
+    background-color: #eb1e63;
+    z-index: 2;    
+    color: #fabfd3;
 
-.container {
 
-        
-        position: relative;
-        border-radius: 20px;
-        border-bottom-right-radius: 0px ;       
-        background-color: #f73586d7;
-        color: white;
-        padding: 15px;
-        margin: 10px 20%;
-        width: 80%;
-        justify-content: start;
+}
+   
 
-        z-index: 2;
-        }
-    
-        /*.container::after {
-        content: "";
-        clear: both;
-        display: table;
-        }*/
-
-    .darker {
-        border: none;
-        background-color:#2e352e;
-        color: white;
-        justify-content: flex-end;
-        border-top-left-radius: 0px ;
-        border-bottom-right-radius: 20px ;   
-        margin: 10px 0;
-    
+.ChatExitButton, .ChatNameLabel,  .imageButton{
+    position: absolute;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background-position: center;
+}
+  .ChatExitButton{
+    top: 20px;
+    right: 20px;
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    background-color: transparent;
+    color: #fabfd3;
 
     }
 
-    .ChatTextarea {	
-        border: solid 1px #fabfd3;
-        color: black;
-        width: 80%;
-        font-size: medium;
-        padding: 10px 10px 10px 10px;
-        margin: 10px 0 10px 5px;
-        outline: none;
-
-        border-radius: 20px;
-        bottom: 0;
-        left: 0;
-        }
-
-    .ChatTextarea:focus {
-        width: 80%;
-        height: auto;
-        max-height: 60%;
-        padding: 10px 10px 10px 10px;
-        margin: 10px 0 10px 5px;
-    }    
-
-    .ChatSendButton/*, .ChatExitButton*/ {   
-        border: none;
-        background-repeat: no-repeat;
-        cursor: pointer;
-    }
-
-    .ChatSendButton{
-        padding: 25px;
-        margin: 10px 5px 5px 0;
-        background-color: transparent;
-        right: 0;
-        bottom: 0;
-        
-        background-image: url(../icons/message_send.png);
-    }
-    .ChatExitButton{
-        top: 0;
-        right: 0;
-        border: none;
-        background-color: #eb1e63;
-        padding: 20px;
-        margin: 0;
-        font-weight: 700;
-        color: #fabfd3;
-    }
     .ChatExitButton:hover{
         color: #fff;
         transition: 0.3s;
     }
 
+    .ChatNameLabel{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 160px;
+        left: 65px;
+        order: 2;
+        height: 30px;
+        top: 20px;
+        cursor: auto;
+    }
+
+    .imageButton{
+        border-radius: 50%;
+        width: 55px;
+        height: 55px;
+        left: 5px;
+        top: 1px;
+        background-size: cover;
+
+    }
+
+
+   
+    
+    .messagesDiv{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+
+        width: 100%;
+        border: none;
+        margin-top: 60px;
+        margin-bottom: 50px;
+        font-size: 14px;
+        overflow: hidden;
+        background-color: white;
+        align-items: flex-end;
+    }
+
+
+
+    .container {
+        position: relative;
+        border-radius: 20px;
+        border-bottom-right-radius: 0px ;       
+        background-color: #f73586d7;
+        color: white;
+        padding: 10px;
+        margin: 2px 1px;
+        max-width: 80%;
+        right: 1px;
+
+        width: fit-content;
+        overflow-wrap: break-word;
+        }
+    
+        .container::after {
+        content: "";
+        clear: both;
+        display: table;
+        }
+
+    .darker {
+        border: none;
+        background-color:#2e352e;
+        color: white;
+        border-top-left-radius: 0px ;
+        border-bottom-right-radius: 20px ;   
+        text-align: start;
+        align-self: start;
+
+
+    }
+
+.chatInputDiv{
+    position: absolute;
+    align-self: flex-end ;
+    width: 298px;
+    height: 50px;
+    border: none;
+    bottom: 1px;
+    font-size: 20px;
+    background-color: white;
+    z-index: 1;
+}
+    .ChatTextarea, .ChatTextareaPair {	
+        border: solid 1px #fabfd3;
+        color: black;
+        width: 230px;
+        padding: 10px 10px 10px 10px;
+        margin: 5px 0 5px 5px;
+        outline: none;
+        border-radius: 20px;
+        }
+
+
+    /*.ChatTextarea:focus {
+        height: auto;
+        margin: 10px 0 10px 5px;
+    } */   
+
+    .ChatSendButton{   
+        border: none;
+        background-repeat: no-repeat;
+        cursor: pointer;
+        padding: 23px;
+        margin-left: 6px;
+        outline: none;
+        background-color: transparent;   
+        background-image: url(../icons/message_send.png);
+    }
+  
+   
    
     
 
 
 
 /*======================CARDS====================*/
-    .leftbutton, .rightbutton {
+.middlesite{
+    margin-top: 55px;
+    margin-left: 100px;
+    width: 100%;
+    display: flex;
+    overflow: auto;
+}
+.middlecenter{
+    margin: auto;
+    flex-flow: column wrap;
+    width: 370px;
+  
+}
+
+.dataCard{  
+    display: flex;
+    align-self: flex-start;
+    justify-content: flex-start;
+}
+
+#card {
+    display: flex;
+    height: 500px;
+    width: 370px;
+    justify-content: space-evenly;
+    position: relative;
+    border-radius: 5%;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
+    background-repeat: no-repeat;
+    background-size: cover ;
+    background-position: center;
+    
+}
+
+.leftbutton, .rightbutton, .reportButton, .deletePair, .reportButtonPair{
+        
         border: none;
         background-color: transparent;
         background-image: url(../icons/nanie.png);
         background-repeat: no-repeat;
         cursor: pointer;
         outline: none;
-
+        align-self: flex-end;
+        
         width: 80px;
         height: 80px;
         margin-bottom: 20px;
+        
     }
 
     .rightbutton{
         background-image: url(../icons/natak.png);
+    }
+    .reportButton, .reportButtonPair{
+        position: absolute;
+        left: 0;
+        top: 0;
+        padding: 0;
+        margin-top: 10px;
+        margin-left: 10px;
+        width: 40px;
+        height: 40px;
+        background-position: center;
+        background-image: url(../icons/exclamation_mark.png);
+    }
+    .reportButtonPair{
+        margin-top: 30px;
+        margin-left: 30px;
+    }
+    .deletePair{
+        background-image: url(../icons/can.png);
+        margin-left: 150px;
+        margin-top: 40px;
     }
  /*========================DISTANCESWITCH===============*/
 

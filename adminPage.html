@@ -20,6 +20,8 @@ and open the template in the editor.
 	<script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
 	<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
 	<script src="admin.js"></script>
+	
+
 	<link rel="stylesheet" href="css/main.css" />
 </head>
 
@@ -27,57 +29,95 @@ and open the template in the editor.
 
 	
 
-	<div class="navbar"></div>
-	
-		<a href="#">Strona główna</a>
+	<div class="navbar">
 
-
-		
-
-		 
-
-
-
-
-				
-
-				
-		
-					<!--<a href="#">Usun konto</a>-->
+		<a id="profileBtnAdmin" class="profileBtn">Stworz admina</a>
 		<a href="#" onclick="logout()">Wyloguj</a>
+		
+
+		<div id="profileModalAdmin" class="modal">
+
+			<div class="modal-content"> 
+				
+				<span class="closeProfile">&times;</span>
+
+				<input class="email" type="text" placeholder="Email nowego aministratora" id="emailAdmin" style="width:370px">
+				<input class="password" type="password" placeholder="Potwierdź swoim hasłem" id="passwordAdmin" style="width:370px">
+				<button id="createAdmin" class="zmienDane" onclick="createAdmin()">Stwórz</button>
+			</div>
+			</div>
+
+		
 
 	</div>
+								
+	<script>
+
+		var modalProfile = document.getElementById("profileModalAdmin");
+		// Get the button that opens the modal
+		var btnProfile = document.getElementById("profileBtnAdmin");
+		
+		// Get the <span> element that closes the modal
+		var spanProfile = document.getElementsByClassName("closeProfile")[0];
+
+		// When the user clicks the button, open the modal 
+		btnProfile.onclick = function() {
+		modalProfile.style.display = "block";
+		}
 
 
-	</div>
-
+		
+		
+		// When the user clicks on <span> (x), close the modal
+		spanProfile.onclick = function() {
+		modalProfile.style.display = "none";
+		}
+		
+		// When the user clicks anywhere outside of the modal, close it
+		
+		window.addEventListener("click", function(event) {
+    if (event.target == modalProfile) {
+		modalProfile.style.display = "none";
+	}
+});
 	
-	<div class="middlesite">
 
-		<div id="dataCard">
-			Name:<div id="userNameData"></div></br>
-			Description:<div id="userDescriptionData"></div></br>
-			Gender:<div id="userGenderData"></div></br>
-		   Szukam:<div id="userWantedGenderData"></div></br>
-			
+		</script>
+	
+	<div class="middlesite"style="margin-left: 0 ;">
+	
+		<div class="middlecenter" >
+
+		
+	<div id="repotedFor" class="dataCard">
+	<h4 class="listReports">Zdjecie:</h4><h4 class="listReports">Opis:</h4><h4 class="listReports">Wiadomosci:</h4>
+	<div id="reportedForPicture" class="listReports"></div>
+	<div id="reportedForDescription" class="listReports"></div>
+	<div id="reportedForMessages" class="listReports"></div></br>
 	
 	</div>
+
 		<div id="card">
 		<script>
-		if (sessionStorage.getItem('AuthenticationState') === null) {
+		if (sessionStorage.getItem('AuthenticationStateAdmin') === null) {
 			window.open("AccessDenied.html", "_self");
 		 }
-		 //Is their authentication token still valid?
-		 else if (Date.now > new Date(sessionStorage.getItem('AuthenticationExpires'))) {
-			   window.open("AccessDenied.html", "_self");
-		 }
-		 else {
+		
+		 else if(sessionStorage.getItem('AuthenticationStateAdmin') != null) {
             		checkReportProfiles();
 		 }
 </script>
 		</div>
+		<div id="dataCard" class="dataCard">
+			<div id="userNameData" class="userName"></div></br>
+			<div id="userDescriptionData" class="userDescriptionData"></div></br>
+			<div id="userGenderData" class="userGenderData"></div></br>
+		    <div id="userWantedGenderData" style="display: none;"></div></br>
+			
+	
 	</div>
-
+	</div>
+</div>
 
 </body>
 

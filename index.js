@@ -27,96 +27,77 @@
           alert('Please enter a password.');
           return;
         }
-        // Sign in with email and pass.
-        // [START authwithemail]
+     
         firebase.auth().signInWithEmailAndPassword(email, password).then(function()
         {
           var user = firebase.auth().currentUser;
           var email_verified=user.emailVerified;
-          firebase.auth().onAuthStateChanged(function(user) {
-            //&&email_verified
-            if (user) {
-              sessionStorage.setItem("AuthenticationState", "Authenticated");
-              //sessionStorage.setItem("AuthenticationExpires", addHours(1));
-              window.open('main.html','_self');
 
-              //window.location.replace("main.html");
-            } else {
-              window.alert("Zweryfikuj email");
-             // window.location.replace("index.html");
+          const adminRef = db.collection("users").doc(user.uid);
+          //&&email_verified
+          if(user)
+          {
+          adminRef.get()
+            .then((docSnapshot) => {
+              if (docSnapshot.exists) {
+                adminRef.onSnapshot((doc) => {
+                  if(doc.data().banned!=null)
+                  {
+                    console.log("Your account is blocked!");
 
-            }
+                  }
+                  else
+                  {
+                    sessionStorage.setItem("AuthenticationState", "Authenticated");
+                    window.open('main.html','_self');
+                  }
+                });
+              } else {
+                sessionStorage.setItem("AuthenticationStateAdmin", "Authenticated");
+                window.open('adminPage.html','_self');
+
+              }
           });
-
+        }
+        else{
+          console.log("Verify your emaial!");
+        }            
         }).
         catch(function(error) {
-          // Handle Errors here.
           var errorCode = error.code;
           var errorMessage = error.message;
-          // [START_EXCLUDE]
           if (errorCode === 'auth/wrong-password') {
             alert('Wrong password.');
           } else {
             alert(errorMessage);
           }
-          console.log(error);
-          // [END_EXCLUDE]
+          console.log(error);     
         });
-        // [END authwithemail]
       }
     }
 
 
-  //   function addHours(h) {    
-  //     this.setTime(this.getTime() + (h*60*60*1000)); 
-  //     return this;   
-  //  }
-  
    
         
     function handleSignUp(db) {
 
       var email = document.getElementById('email').value;
       var password = document.getElementById('password').value;
-   
-      if (email.length < 4) {
-        alert('Please enter an email address.');
-        return;
-      }
-      if (password.length < 4) {
-        alert('Please enter a password.');
-        return;
-      }
-
-      var nme = document.getElementById("photo");
-
-      if(nme.value.length < 4) {
-        alert('Must Select any of your photo for upload!');
-        nme.focus();
-        return ;
-    }
-    
-    
+      var photoRequired = document.getElementById("photo");
       var name=document.getElementById('name').value;
       var description = document.getElementById('opis').value;
       var choosenGender = document.querySelector('input[name="gender"]:checked').value;  
       var wantedGender = document.querySelector('input[name="wantedGender"]:checked').value;
-
-
-    
-      
-firebase.auth().createUserWithEmailAndPassword(email, password).then(function(){
-  var user = firebase.auth().currentUser;
- 
-  user.sendEmailVerification().then(function()
-  {
-    console.log("EMail wysłany");
-  })
-
-  firebase.auth().onAuthStateChanged(function(user) {
-
-    if(user)
+      checkData(email,password);
+  
+      if(photoRequired.value.length < 4|| name.length<4) {
+        alert('Fill the data');
+        photoRequired.focus();
+        return;
+    }
+    else
     {
+<<<<<<< HEAD
       console.log("id z : ",user.uid);
       const ref = firebase.storage().ref("profileImages");
 const file = document.querySelector("#photo").files[0];
@@ -124,7 +105,7 @@ const metadata = {
 contentType: file.type
 };
 
-console.log(nme.value);
+console.log(photoRequired.value);
 
 const task = ref.child(user.uid).put(file, metadata);
 task
@@ -135,43 +116,77 @@ name: name,
 gender: choosenGender,
 lookingFor : wantedGender,
 aboutMe:description,
-lastLocation:"default",
 searchingRange:"unlimited",
-banned:"false",
 profileImageUrl: url
+=======
+      firebase.auth().createUserWithEmailAndPassword(email, password).then(function(){
+        var user = firebase.auth().currentUser;
+      user.sendEmailVerification().then(function()
+        {
+          console.log("Email send");
+        })
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
 
-})
-  //getLocation(db,user.uid);
-  // console.log("Document successfully written!");
-  //   window.alert("Registered ");
-  //   window.location.replace("index.html");
-
-}).catch(console.error);
-
-//getLocation(db,user.uid);
+        firebase.auth().onAuthStateChanged(function(user) {
+      
+          if(user)
+          {
+            const ref = firebase.storage().ref("profileImages");
+      const file = document.querySelector("#photo").files[0];
+      const metadata = {
+      contentType: file.type
+      };
+      
+      const task = ref.child(user.uid).put(file, metadata);
+      task
+      .then(snapshot => snapshot.ref.getDownloadURL())
+      .then(url => {
+      db.collection("users").doc(user.uid).set({
+      name: name,
+      gender: choosenGender,
+      lookingFor : wantedGender,
+      aboutMe:description,
+      searchingRange:"unlimited",
+      profileImageUrl: url
+      
+      })
+      }).catch(console.error);
+          }
+          getLocation(db,user.uid);
+        });  
+      
+         
+      }).
+      catch(function(error) {
+              // Handle Errors here.
+              var errorCode = error.code;
+              var errorMessage = error.message;
+              // [START_EXCLUDE]
+              if (errorCode == 'auth/weak-password') {
+                alert('The password is too weak.');
+              } else {
+                alert(errorMessage);
+              }
+              console.log(error);
+              
+            });
+          }
     }
-    getLocation(db,user.uid);
 
-  });
-    
-    // [END createwithemail]
-}).
-catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // [START_EXCLUDE]
-        if (errorCode == 'auth/weak-password') {
-          alert('The password is too weak.');
-        } else {
-          alert(errorMessage);
-        }
-        console.log(error);
-        
-      });
-    }
      
-
+function checkData(email,password)
+{
+  
+  if (email.length < 4) {
+    alert('Please enter an email address.');
+    return;
+  }
+  if (password.length < 4) {
+    alert('Please enter a password.');
+    return;
+  }
+ 
+}
     function getLocation(db,id)
     {
       
@@ -196,40 +211,67 @@ catch(function(error) {
         }
 
     }
-    function resetPassword(email)
+    function resetPassword()
     {
       var auth = firebase.auth();
-      
+      var email=document.getElementById("email").value;
       auth.sendPasswordResetEmail(email).then(function() {
-        // Email sent.
-      }).catch(function(error) {
-        // An error happened.
-      });
+        alert("Messages sent");
+        window.location.replace("index.html");
+
+        }).catch(function(error) {
+          alert(error);
+        });
     }
    
  
 
     function logout(){
       firebase.auth().signOut();
+
       window.location.replace("index.html");
     }
-   function loadPhoto()
-    {
-      var user=firebase.auth().currentUser;
-      var docRef = db.collection("users").doc(user.uid)
-docRef.get().then(function(doc) {
-    if (doc.exists) {
-      document.getElementById("mySidebarRight").style.backgroundImage="url("+doc.data().profileImageUrl+")";
 
-    } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-    }
-}).catch(function(error) {
-    console.log("Error getting document:", error);
-});
-    }
 
+  function changeData(db)
+  {
   
+      var name=document.getElementById('nameChange').value;
+      var description = document.getElementById('opisChange').value;
+      var choosenGender = document.querySelector('input[name="genderChange"]:checked').value;  
+<<<<<<< HEAD
+      var city=document.getElementById('city').value;
+      var job=document.getElementById('job').value;
+
+      var user = firebase.auth().currentUser;
+=======
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
+
+  firebase.auth().onAuthStateChanged(function(user) {
+
+    if(user)
+    {
+<<<<<<< HEAD
+db.collection("users").doc(user.uid).update({
+name:name,
+aboutMe:description,
+gender:choosenGender,
+job:job,
+city:city
+=======
+          db.collection("users").doc(user.uid).update({
+          name:name,
+          aboutMe:description,
+          gender:choosenGender
+>>>>>>> 4aa308755097d0d747104340355f085c54f73694
+}).then(function()
+{
+  alert("Data changed");
+})
+
+}
+
+  });
     
+}
 
