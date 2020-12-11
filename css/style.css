@@ -2,6 +2,7 @@
 *, *::before, *::after{
 	box-sizing: border-box;
 }
+
 body{
 	background-color: #eb1e63;
 	font-family: 'Heebo', sans-serif;
@@ -100,7 +101,7 @@ input[type=text].name {
 
 
 
-button, .addphoto {	
+button, .addphoto, .zmiendane{	
 	background-color: #13bc6f;
 	border: 2px solid #fabfd3;
 	width:400px;
@@ -113,6 +114,7 @@ button, .addphoto {
 	outline: none;
 	border-radius: 10px;
 }
+
 
 .lostpassword{
 	text-align: center;
@@ -190,4 +192,13 @@ textarea {
 	resize: none;	
 	outline: none;
 }
-
+.powrot{
+	cursor: pointer;
+	outline: none;
+	color: #fabfd3;
+}
+.powrot:hover{
+	cursor: pointer;
+	outline: none;
+	color: #fff;
+}

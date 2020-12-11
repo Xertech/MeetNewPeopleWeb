@@ -142,7 +142,6 @@ name: name,
 gender: choosenGender,
 lookingFor : wantedGender,
 aboutMe:description,
-lastLocation:"default",
 searchingRange:"unlimited",
 profileImageUrl: url
 
@@ -220,6 +219,9 @@ catch(function(error) {
       var name=document.getElementById('nameChange').value;
       var description = document.getElementById('opisChange').value;
       var choosenGender = document.querySelector('input[name="genderChange"]:checked').value;  
+      var city=document.getElementById('city').value;
+      var job=document.getElementById('job').value;
+
       var user = firebase.auth().currentUser;
 
   firebase.auth().onAuthStateChanged(function(user) {
@@ -229,7 +231,9 @@ catch(function(error) {
 db.collection("users").doc(user.uid).update({
 name:name,
 aboutMe:description,
-gender:choosenGender
+gender:choosenGender,
+job:job,
+city:city
 }).then(function()
 {
   alert("Dane zmienone");

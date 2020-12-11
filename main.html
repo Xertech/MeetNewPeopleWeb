@@ -24,6 +24,7 @@ and open the template in the editor.
 	<script src="pairs.js"></script>
 
 	<link rel="stylesheet" href="css/main.css" />
+
 </head>
 
 <body>
@@ -38,8 +39,11 @@ and open the template in the editor.
 	   currentUserRef.get().then(function(doc) {
 		   if (doc.exists) {
 			   var photoUrl=doc.data().profileImageUrl;
-			   document.getElementById("opisChange").innerHTML=doc.data().description;				
+			   document.getElementById("userWantedGender").innerHTML=doc.data().lookingFor;
+			   document.getElementById("opisChange").innerHTML=doc.data().aboutMe;				
 			   document.getElementById("nameChange").value=doc.data().name;	
+			   document.getElementById("city").value=doc.data().city;
+    			document.getElementById("job").value=doc.data().job;
 			   if(doc.data().gender=="male")
 			   {
 				document.getElementById("maleChange").checked=true;				
@@ -66,86 +70,69 @@ and open the template in the editor.
 	</script>
 
 	<div class="navbar">
-		<!-- Usuniete id="mySidenav"-->
-
-		<!--
-		<a href="#">Dodaj zdjecie</a>
-		<input type="file" id="photo" />
-		<button onclick="uploadImage(db)">Upload Image</button>
-		-->
-		<a href="#">Strona główna</a>
-
-	
-  <!--
-				  TUTAJ ZACZYNA SIE ZMIENIANIE TEGO GORNEGO NAVBARA!!!!!!
-			  -->
 		
-				<button id="profileBtn">Profile</button></br>
-				<button id="genderBtn">Gender</button>
-
-		
-			
-
-		  <div id="myModal" class="modal">
-
-			<!-- Modal content -->
-			<div class="modal-content">
-			  <span class="close">&times;</span>
-
-			</div>
-		  
-		  </div>
-
-		  <div id="profileModal" class="modal">
-			<span class="closeProfile">&times;</span>
-
-			<div class="modal-content">
-					 <div id="currentUserCardID" class="currentUserCard">
-						<div class="container" id="containerProfile" >
-
-							<input class="name" type="text" id="nameChange"></br>
-
-							<input type="radio" id="maleChange" name="genderChange" value="male" >
-							<label class="mymale" for="male">Mężczyzna</label></br>
-					
-							<input type="radio" id="femaleChange" name="genderChange" value="female">
-							<label class="myfemale" for="Female">Kobieta</label></br>
-  
-							<textarea placeholder="Krótki opis siebie." id="opisChange" name="opis" rows="4" cols="50"></textarea>
-							<button id="zmienDane" onclick="changeData(db)">Zmien dane</button>
-  
-						  </div>
-						<div id="userWantedGender""></div></br>
-						<script>getCurrentUserInfo();
-					
-						</script>
-
-
-
-											 </div>
-			 
-			  </div>
-			
-		  </div>
-
-		  <div id="reportModal" class="modal">
-			<span class="closeGender">&times;</span>
-
-
+		<div id="profileModal" class="modal">
 			<div class="modal-content">
 				
-				<h4>Zgłoś za:</h4></br>
-				<div class="container">
+				<span class="closeProfile">&times;</span>
+
+					 <div id="currentUserCardID" class="currentUserCard">
+				
+					</div>
+						<div id="containerProfile" class="containerProfile">
+
+							<input class="name" type="text" id="nameChange">
+
+							<input type="radio" id="maleChange" name="genderChange" value="male" >
+							<label class="mymale" for="male">Mężczyzna</label>
+					
+							<input type="radio" id="femaleChange" name="genderChange" value="female">
+							<label class="myfemale" for="Female">Kobieta</label>
+
+							<input type="text" id="city" class="city" placeholder="Twoje miasto"></br>
+
+							<input type="text" id="job" class="city" placeholder="Czym się zajmujesz?">
+						
+							<textarea id="opisChange" class="textarea" name="opis" rows="4" cols="50"></textarea>
+							
+							<button id="zmienDane" class="zmienDane" onclick="changeData(db)">Zapisz zmiany</button>
+						
+						</div>
+						<div id="userWantedGender" style="display: none;">
+							<script>getCurrentUserInfo();</script>
+						</div>
+					
+			</div>
+			
+		</div>
+
+		<a id="profileBtn" class="profileBtn">Mój Profil</a>
+		<a id="genderBtn" class="genderBtn">Opcje Wyszukiwania</a>
+
+		<div id="myModal" class="modal">
+			<div class="modal-content">
+			  <span class="close">&times;</span>
+			</div>
+        </div>
+
+		
+
+		  <div id="reportModal" class="modal">
+			<div class="modal-content">
+				<span class="closeReport">&times;</span>	
+
+				<h2>Zgłoś za:</h2>
+				<div class="reportForm">
 				  <input type="radio" id="reportForPhoto" name="reportFor" value="Photo">
-				  <label class="photo" for="reportForPhoto">Zdjecie</label>
+				  <label class="reportReason" for="reportForPhoto">Zdjecie</label>
 		  
 				  <input type="radio" id="reportForDescription" name="reportFor" value="Description" >
-				  <label class="description" for="reportForDescription">Opis</label>
+				  <label class="reportReason" for="reportForDescription">Opis</label>
 		  
-				  <input type="radio" id="reportForMessages" name="reportFor" value="Messages">
-				  <label id="hideMessages" class="messages" for="reportForMessages">Wiadomosci</label>
+				  <input type="radio" id="reportForMessages" name="reportFor" value="Messages" style="display: none;">
+				  <label id="hideMessages" class="reportReason" for="reportForMessages">Wiadomosci</label>
 
-				  <button id="reportButtonSend" >Zglos</button>
+				  <button id="reportButtonSend" class="reportButtonConfirm" >Zgłoś</button>
 				</div>
 			 
 			  </div>
@@ -154,32 +141,31 @@ and open the template in the editor.
 
 	
 		  <div id="genderModal" class="modal">
-			<span class="closeGender">&times;</span>
+				<div class="modal-content">
+					<span class="closeGender">&times;</span>
 
+					<div id="scrollDistance" class="scrollDistance">
+						<h4>Odległość w km:</h4>
+						<input type="range" id="volume" class="slip" name="volume"
+							min="0" max="250" onchange="updateTextInput(this.value)">
+						<input type="text" id="textInput" class="slipValue" value="">
+					</div>
 
-			<div class="modal-content">
+					<div class="ContainerSettings"> 
+						<h4>Szukam:</h4>
+
+						<input type="radio" id="lookForMale" name="wantedGender" value="male" onchange="updateGenderInput(this.value)">
+						<label class="male" for="lookForMale">Mężczyzna</label>
 				
-			<div id="scrollDistance">
-				Podaj
-				<input type="range" id="volume" name="volume"
-					   min="0" max="250" onchange="updateTextInput(this.value)">
-				<input type="text" id="textInput" value="">
-			  </div>
-
-				<h4>Szukam:</h4></br>
-				<div class="container">
-				  <input type="radio" id="lookForMale" name="wantedGender" value="male" onchange="updateGenderInput(this.value)">
-				  <label class="male" for="lookForMale">Mężczyzna</label>
-		  
-				  <input type="radio" id="lookForBisexual" name="wantedGender" value="male Female" onchange="updateGenderInput(this.value)" >
-				  <label class="bisexual" for="lookForBisexual">Obie płcie</label>
-		  
-				  <input type="radio" id="lookForFemale" name="wantedGender" value="female" onchange="updateGenderInput(this.value)" >
-				  <label class="female" for="lookForFemale">Kobieta</label>
-				</div>
+						<input type="radio" id="lookForBisexual" name="wantedGender" value="male Female" onchange="updateGenderInput(this.value)" >
+						<label class="bisexual" for="lookForBisexual">Obie płcie</label>
+				
+						<input type="radio" id="lookForFemale" name="wantedGender" value="female" onchange="updateGenderInput(this.value)" >
+						<label class="female" for="lookForFemale">Kobieta</label>
+					</div>
 			 
-			  </div>
-			
+				</div>
+
 		  </div>
 
 		  
@@ -250,7 +236,7 @@ and open the template in the editor.
 
 					// When the user clicks the button, open the modal 
 					btnProfile.onclick = function() {
-					modalProfile.style.display = "block";
+					modalProfile.style.display = "flex";
 					}
 
 
@@ -282,7 +268,7 @@ and open the template in the editor.
 	
 						// When the user clicks the button, open the modal 
 						btnGender.onclick = function() {
-						modalGender.style.display = "block";
+						modalGender.style.display = "flex";
 						}
 	
 	
@@ -347,64 +333,67 @@ and open the template in the editor.
 	<div id="mySidenav" class="mySidenav">
 
 		<div class="mySidecloseopenbutton">
-			<span class="mySlideOpenButton"style="font-size:30px;cursor:pointer;position:absolute" onclick="openNav()">&#9776; </span>
-	
-			<a href="javascript:void(0)" class="mySlideCloseButton" onclick="closeNav()">&times;</a>
-			</div>
+			<span id="mySlideOpenButton" class="mySlideOpenButton" onclick="openNav()"></span>
+			<span href="javascript:void(0)" id="mySlideCloseButton" class="mySlideCloseButton" onclick="closeNav()"></sapan>
+		</div>
 
-		<div id="matchesDiv">
 		
-		</div class="mySidenavProfiles">
+		
 		<script>
 			chatFunction();
 
 			function openNav() {
 				document.getElementById("mySidenav").style.width = "300px";
+				document.getElementById("mySlideOpenButton").style.display = "none";
+				document.getElementById("mySlideCloseButton").style.display = "flex";	
 				
 			}
 
 			function closeNav() {
 				document.getElementById("mySidenav").style.width = "100px";
+				document.getElementById("mySlideCloseButton").style.display = "none";
+				document.getElementById("mySlideOpenButton").style.display = "flex";	
 			}
-		</script>
-		</div>
-	</div></div>
+		</script>	
+		<div id="matchesDiv">
+	</div>
+</div>
 
 	
 	<div class="middlesite">
-		<div id="dataCard">
-			Name:<div id="userNameData"></div></br>
-			Description:<div id="userDescriptionData"></div></br>
-			Gender:<div id="userGenderData"></div></br>
-			
+		<div class="middlecenter">
+			<div id="card">
+		
+				<script>
+							if (sessionStorage.getItem('AuthenticationState') === null) {
+				window.open("AccessDenied.html", "_self");
+				}
+				//Is their authentication token still valid?
+				else if (Date.now > new Date(sessionStorage.getItem('AuthenticationExpires'))) {
+					window.open("AccessDenied.html", "_self");
+				}
+				else {
+					mainFunction();
+				
+				}
+				</script>
+			</div>
+
+		<div id="dataCard" class="dataCard">
+			<div id="userNameData" class="userName"></div>
+			<div id="userGenderData"class="userGender"></div>
+			<div id="userCity" class="userCity"></div>
+			<div id="userJob" class="userJob"></div>
+			<div class="km"> km</div>
+			<div id="userDescriptionData" class="userDescription"></div>
+
+
+	</div>
+
+
 	
 	</div>
-
-	<div id="profileModalPicture" class="profileModalPicture">
-		Name:<div id="userNameProfile"></div></br>
-		Description:<div id="userDescriptionProfile"></div></br>
-		Gender:<div id="userGenderProfile"></div></br>
-
-	  </div>
-
-
-		<div id="card">
-		
-		<script>
-			if (sessionStorage.getItem('AuthenticationState') === null) {
-   window.open("AccessDenied.html", "_self");
-}
-//Is their authentication token still valid?
-else if (Date.now > new Date(sessionStorage.getItem('AuthenticationExpires'))) {
-      window.open("AccessDenied.html", "_self");
-}
-else {
-	mainFunction();
-
-}
-		</script>
-		</div>
-	</div>
+</div>
 
 	<div class="rightSite">
 		<div id="usersCard">

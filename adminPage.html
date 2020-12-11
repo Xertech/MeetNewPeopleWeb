@@ -30,17 +30,20 @@ and open the template in the editor.
 	
 
 	<div class="navbar">
-		<a href="#">Strona główna</a>
+
+		<a id="profileBtnAdmin" class="profileBtn">Stworz admina</a>
 		<a href="#" onclick="logout()">Wyloguj</a>
-		<button id="profileBtnAdmin">Stworz admina</button>
+		
 
 		<div id="profileModalAdmin" class="modal">
-			<span class="closeProfile">&times;</span>
 
 			<div class="modal-content"> 
-				<input class="email" type="text" placeholder="Email" id="emailAdmin">
-				<input class="password" type="password" placeholder="Hasło" id="passwordAdmin">
-				<button id="createAdmin" onclick="createAdmin()">Stworz</button>
+				
+				<span class="closeProfile">&times;</span>
+
+				<input class="email" type="text" placeholder="Email nowego aministratora" id="emailAdmin" style="width:370px">
+				<input class="password" type="password" placeholder="Potwierdź swoim hasłem" id="passwordAdmin" style="width:370px">
+				<button id="createAdmin" class="zmienDane" onclick="createAdmin()">Stwórz</button>
 			</div>
 			</div>
 
@@ -81,20 +84,16 @@ and open the template in the editor.
 
 		</script>
 	
-	<div class="middlesite">
-
-		<div id="dataCard">
-			Name:<div id="userNameData"></div></br>
-			Description:<div id="userDescriptionData"></div></br>
-			Gender:<div id="userGenderData"></div></br>
-		   Szukam:<div id="userWantedGenderData"></div></br>
-			
+	<div class="middlesite"style="margin-left: 0 ;">
 	
-	</div>
-	<div id="repotedFor">
-	Zdjecie:<div id="reportedForPicture"></div></br>
-	Opis:<div id="reportedForDescription"></div></br>
-	Wiadomosci:<div id="reportedForMessages"></div></br>
+		<div class="middlecenter" >
+
+		
+	<div id="repotedFor" class="dataCard">
+	<h4 class="listReports">Zdjecie:</h4><h4 class="listReports">Opis:</h4><h4 class="listReports">Wiadomosci:</h4>
+	<div id="reportedForPicture" class="listReports"></div>
+	<div id="reportedForDescription" class="listReports"></div>
+	<div id="reportedForMessages" class="listReports"></div></br>
 	
 	</div>
 
@@ -112,8 +111,16 @@ and open the template in the editor.
 		 }
 </script>
 		</div>
+		<div id="dataCard" class="dataCard">
+			<div id="userNameData" class="userName"></div></br>
+			<div id="userDescriptionData" class="userDescriptionData"></div></br>
+			<div id="userGenderData" class="userGenderData"></div></br>
+		    <div id="userWantedGenderData" style="display: none;"></div></br>
+			
+	
 	</div>
-
+	</div>
+</div>
 
 </body>
 

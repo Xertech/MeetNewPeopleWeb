@@ -1,32 +1,36 @@
 
 function mainFunction()
 {
-
   var us = firebase.auth().currentUser;
     firebase.auth().onAuthStateChanged(function(us) {
         if(us)
         {
             var mainUserRef = db.collection("users").doc(us.uid);
             mainUserRef.get().then(function(doc) {
-if (!doc.exists) {
-    console.log("User nie jest zalogowany");
+      if (!doc.exists) {
     window.open('index.html','_self');
  
-    } else {
-      console.log("Document data:", doc.data().lastLocation.latitude);
-      console.log("Document data:", doc.data().lastLocation.longitude);
+    } 
+    else if(doc.data().lastLocation==null)
+    {
+      getLocation(db,us.uid);
+    }
+    else {
+      //getLocation(db,us.uid);
       var currentUserLat=doc.data().lastLocation.latitude;
       var currentUserLong=doc.data().lastLocation.longitude;
 
   var foo = document.getElementById("card");
-
+  var fooUsers=document.getElementById("dataCard");
+  
   var rangeRef = db.collection("users").doc(us.uid);
   rangeRef.get().then(function(doc) {
-            document.getElementById('textInput').value=doc.data().searchingRange;
+    document.getElementById('textInput').value=doc.data().searchingRange;
+    document.getElementById("textInput").readOnly = true;
+
 
 
 });
-
 
  var notSwipedArray=[];
  var photoArray=[];
@@ -35,11 +39,13 @@ if (!doc.exists) {
  var genderArray=[];
  var lookingForArray=[];
  var distanceArray=[];
- 
+ var jobarray=[];
+ var cityarray=[];
+
  var userLookingFor=document.getElementById("userWantedGender").textContent;
 
  var reportButton=document.createElement("button");
- var reportButtonText=document.createTextNode("REPORT");
+ var reportButtonText=document.createTextNode("");
  reportButton.appendChild(reportButtonText);
  reportButton.className="reportButton";
  reportButton.id="report";
@@ -53,7 +59,9 @@ if (!doc.exists) {
 
  var x = document.createElement("LABEL");
                    x.id="labelForDistance";
-                   foo.appendChild(x);
+                   x.className="labelForDistance"
+                   fooUsers.appendChild(x);
+                   //tutuyguiy
 
  var elementRight = document.createElement("button");
  var rightButton = document.createTextNode("");
@@ -61,7 +69,9 @@ if (!doc.exists) {
  elementRight.className = "rightbutton";
  foo.appendChild(elementRight);
 
-   
+
+
+  
  db.collection("users").get()
  .then(function(querySnapshot) {
      querySnapshot.forEach(function(doc) {
@@ -70,334 +80,72 @@ if (!doc.exists) {
     
          const usersRef = db.collection("users").doc(doc.id).collection("SwipedBy").doc(user.uid)
                  usersRef.get().then((docSnapshot) => {
-                   console.log(doc.id);             
-                try
-                   {
-                     
+                  
+                  try{
                    var secondUserLat=doc.data().lastLocation.latitude;
                    var secondUserLong=doc.data().lastLocation.longitude;                                 
-                   document.getElementById("labelForDistance").innerHTML=parseInt(calcCrow(currentUserLat,currentUserLong,secondUserLat,secondUserLong));
-                     
-                    
-                  }
-                   catch(e)
-                   {
-                      console.log(e);
-                   }        
-                 
-                
-
-                  var distance=parseInt(document.getElementById("labelForDistance").innerText);
+                   var calcDistance=calcCrow(currentUserLat,currentUserLong,secondUserLat,secondUserLong);                                          
+                  var distance=parseInt(calcDistance);
                   var wantedDistance=document.getElementById("textInput").value;
-                  console.log("Szukany dystans: ",wantedDistance);
-                  console.log("Dany dystans: "+distance);
+                  }
+                  catch(e)
+                  {
+                    console.log(e);
+                  }
 
                   document.getElementById("dataCard").style.visibility = "hidden";
                   reportButton.style.visibility="hidden";
 
                      if (!docSnapshot.exists&&doc.id!=user.uid&&(doc.data().gender==userLookingFor||userLookingFor=='male Female')&&(distance<wantedDistance||wantedDistance=='unlimited')&&doc.data().banned!=true) { 
 
+                      document.getElementById("dataCard").style.visibility = "visible";
+                      reportButton.style.visibility="visible";
+                      document.getElementById("labelForDistance").style.visibility="visible";            
+                
+                      notSwipedArray.push(doc.id);
+                      distanceArray.push(distance);
+   
+                      const photoRef = db.collection("users").doc(doc.id);
+                      photoRef.get().then((docSnapshot) => {
+                      if (docSnapshot.exists) { 
+                      var index=0;          
+                     
+                      photoArray.push(doc.data().profileImageUrl);
+                      cityarray.push(doc.data().city);
+                      jobarray.push(doc.data().job);
+                      nameArray.push(doc.data().name);
+                      descriptionArray.push(doc.data().aboutMe);
+                      if(doc.data().gender=="male")
+                      {
+                        genderArray.push("Mężczyzna");
+
+                      }
+                      else
+                      {
+                        genderArray.push("Kobieta");
+
+                      }
+                      lookingForArray.push(doc.data().lookingFor);
 
                       document.getElementById("dataCard").style.visibility = "visible";
                       reportButton.style.visibility="visible";
-                    document.getElementById("labelForDistance").style.visibility="visible";            
-                     
-                       console.log(doc.data().gender,userLookingFor);
-                      console.log("doc.id",doc.data());
-      notSwipedArray.push(doc.id);
-      console.log(distance);
-      distanceArray.push(distance);
-     console.log(doc.id);
-   
-      const photoRef = db.collection("users").doc(doc.id);
-                 photoRef.get().then((docSnapshot) => {
-                     if (docSnapshot.exists) { 
-                                   
-                      photoArray.push(doc.data().profileImageUrl);
-                      nameArray.push(doc.data().name);
-                      descriptionArray.push(doc.data().description);
-                      genderArray.push(doc.data().gender);
-                      lookingForArray.push(doc.data().lookingFor);
+                      document.getElementById("labelForDistance").style.visibility="visible";
+                      document.getElementById("card").style.backgroundImage="url("+photoArray[index]+")";
+                      document.getElementById("labelForDistance").innerHTML=distanceArray[index];
+                      document.getElementById("userNameData").innerHTML=nameArray[index];
+                      document.getElementById("userCity").innerHTML=cityarray[index];
+                      document.getElementById("userJob").innerHTML=jobarray[index];
 
-                      console.log(doc.id," ",doc.data().profileImageUrl);
-
-                          console.log(notSwipedArray.length);
-                          var index=0;
-                         
-
-                          document.getElementById("dataCard").style.visibility = "visible";
-                          reportButton.style.visibility="visible";
-                          document.getElementById("labelForDistance").style.visibility="visible";
-
-                          document.getElementById("card").style.backgroundImage="url("+photoArray[index]+")";
-                          document.getElementById("labelForDistance").innerHTML=distanceArray[index];
-                          document.getElementById("userNameData").innerHTML=nameArray[index];
-                          document.getElementById("userDescriptionData").innerHTML=descriptionArray[index];
-                          document.getElementById("userGenderData").innerHTML=genderArray[index];
-                         
-                      console.log("index=",index);
-
-                             
-
-  var modalReport = document.getElementById("reportModal");
-
-  var btnReport = document.getElementById("report");
-  
-  var spanReport = document.getElementsByClassName("closeProfile")[0];
-
-  window.addEventListener("click", function(event) {
-    if (event.target == modalReport) {
-      modalReport.style.display = "none";
-      
-    }
-  });
-
-
- 
-  btnReport.onclick = function() {
-    modalReport.style.display = "block";
-    document.getElementById("reportForMessages").style.display="none";
-    document.getElementById("hideMessages").style.display="none";
-    document.getElementById("reportButtonSend").onclick=function()
-  {
-    if(document.getElementById("reportForPhoto").checked) {
-      var reportArray=[];
-      const t = firebase.firestore.Timestamp.fromDate(new Date());
-     const d = t.toDate();
-                   
-     db.collection("users").doc(notSwipedArray[index]).collection("Reports").get().then(function(querySnapshot) {
-     querySnapshot.forEach(function(doc) {
-     reportArray.push(doc.id);
-                                   });
-   
-                                  var reportCount=0;
-                                 console.log("dlugosc tablicy: ",reportArray.length);
-                                    if(reportArray.length==0)
-                                   {
-                                     
-                                     
-                                      db.collection("users").doc(notSwipedArray[index]).collection("Reports").doc().set({
-                                       ReportedBy:user.uid,
-                                        Reason:"Photo",
-                                      Time:d
-   
-                                      });
-                                      reportCount++;
-                                     
-                                   }
-                                    else
-                                    {
-   
-                                      db.collection("users").doc(notSwipedArray[index]).collection("Reports").where("ReportedBy","==",user.uid).where("Reason","==","Photo")
-                                                .get()
-                                               .then(function(querySnapshot) {
-                                                   querySnapshot.forEach(function(doc) {
-                                                       // doc.data() is never undefined for query doc snapshots
-                                                       reportCount++;
-                                                   });
-                                                    if(reportCount<1)
-                                                   {
-                                                      db.collection("users").doc(notSwipedArray[index]).collection("Reports").doc().set({
-                                                    ReportedBy:user.uid,
-                                                        Reason:"Photo",
-                                                        Time:d
-                                                 });
-                                                  }
-                                                   else
-                                                    {
-                                                    console.log("Juz byl reportowany");
-                                                    }
-                                                })
-                                               .catch(function(error) {
-                                                   console.log("Error getting documents: ", error);
-                                                });
-   
-                                     
-                                        
-                                      
-                                       console.log("Report count",reportCount);
-                                   }
-                                   
-                                 
-                                 
-                              })
-                            .catch(function(error) {
-                                  console.error("Error writing document: ", error);
-                              });                    
-    }
-    else if(document.getElementById('reportForDescription').checked)
-    {
-      var reportArray=[];
-      const t = firebase.firestore.Timestamp.fromDate(new Date());
-     const d = t.toDate();
-                   
-     db.collection("users").doc(notSwipedArray[index]).collection("Reports").get().then(function(querySnapshot) {
-     querySnapshot.forEach(function(doc) {
-     reportArray.push(doc.id);
-                                   });
-   
-                                  var reportCount=0;
-                                 console.log("dlugosc tablicy: ",reportArray.length);
-                                    if(reportArray.length==0)
-                                   {
-                                     
-                                     
-                                      db.collection("users").doc(notSwipedArray[index]).collection("Reports").doc().set({
-                                       ReportedBy:user.uid,
-                                        Reason:"Description",
-                                      Time:d
-   
-                                      });
-                                      reportCount++;
-                                     
-                                   }
-                                    else
-                                    {
-   
-                                      db.collection("users").doc(notSwipedArray[index]).collection("Reports").where("ReportedBy","==",user.uid).where("Reason","==","Description")
-                                                .get()
-                                               .then(function(querySnapshot) {
-                                                   querySnapshot.forEach(function(doc) {
-                                                       // doc.data() is never undefined for query doc snapshots
-                                                       reportCount++;
-                                                   });
-                                                    if(reportCount<1)
-                                                   {
-                                                      db.collection("users").doc(notSwipedArray[index]).collection("Reports").doc().set({
-                                                    ReportedBy:user.uid,
-                                                        Reason:"Description",
-                                                        Time:d
-                                                 });
-                                                  }
-                                                   else
-                                                    {
-                                                    console.log("Juz byl reportowany");
-                                                    }
-                                                })
-                                               .catch(function(error) {
-                                                   console.log("Error getting documents: ", error);
-                                                });
-   
-                                     
-                                        
-                                      
-                                       console.log("Report count",reportCount);
-                                   }
-                                   
-                                 
-                                 
-                              })
-                            .catch(function(error) {
-                                  console.error("Error writing document: ", error);
-                              });                    
-    }
-  
-
-    }
-  }
-
-    
-                          
-                          console.log(notSwipedArray[index]);
-                       
-
-
-                          elementRight.onclick = function() {
-
-if(index<notSwipedArray.length && notSwipedArray[index]!=user.uid)
-{ 
-
-  document.getElementById("labelForDistance").innerHTML=distanceArray[index+1];
-  document.getElementById("card").style.backgroundImage="url("+photoArray[index+1]+")";
-  document.getElementById("userNameData").innerHTML=nameArray[index+1];
-  document.getElementById("userDescriptionData").innerHTML=descriptionArray[index+1];
-  document.getElementById("userGenderData").innerHTML=genderArray[index+1];
-
- 
-console.log("Przesunales w prawo: "+notSwipedArray[index]);
-
-db.collection("users").doc(notSwipedArray[index]).collection("SwipedBy").doc(user.uid).set({
-       swipe:true,
-       swiped:user.uid
-    })
-    db.collection("users").doc(user.uid).collection("SwipedBy").doc(notSwipedArray[index]).get()
-        .then((docSnapshot) => {
-          if(docSnapshot.exists)
-          {
-          console.log("Przed zapisaniem:", notSwipedArray[index-1]);
-          console.log(user.uid);
-          var dataSwipe=docSnapshot.data().swipe;
-          console.log(dataSwipe);
-      if (docSnapshot.exists && notSwipedArray[index-1]!=user.uid && dataSwipe==true) 
-      {  
-        console.log("Zapisywany:",notSwipedArray[index-1]);
-        db.collection("Matches").doc().set({
-      id2: notSwipedArray[index-1],
-      id1:user.uid
-    })
-      }
-    }
-    else
-    {
-      console.log("Jeszcze nie zostales przez niego przesuniety");
-    }
-      });          
-
-index++;
-  
-  }
-
-
-else{
-window.alert("Koniec zdjec");
-document.getElementById("dataCard").style.visibility = "hidden";
-reportButton.style.visibility="hidden";
-document.getElementById("labelForDistance").style.visibility="hidden";
-     index++;
-
-}
-  }
-
-  elementLeft.onclick = function() {
-  
-    if(index<notSwipedArray.length && notSwipedArray[index]!=user.uid)
-    {
-        document.getElementById("card").style.backgroundImage="url("+photoArray[index+1]+")";
-        document.getElementById("userNameData").innerHTML=nameArray[index+1];
-        document.getElementById("userDescriptionData").innerHTML=descriptionArray[index+1];
-        document.getElementById("userGenderData").innerHTML=genderArray[index+1];
-        document.getElementById("labelForDistance").innerHTML=distanceArray[index+1];
-           
-       
-      console.log("Przesunales w lewo: "+notSwipedArray[index]);
-  
-      db.collection("users").doc(notSwipedArray[index]).collection("SwipedBy").doc(user.uid).set({
-             swipe:false,
-             swiped:user.uid
-          })                    
-  
-  index++;
-  
-        }
-  
-  
-  else{
-    window.alert("Koniec zdjec");
-    document.getElementById("dataCard").style.visibility = "hidden";
-    reportButton.style.visibility="hidden";
-    document.getElementById("labelForDistance").style.visibility="hidden";
-           index++;
-  
-  }
-   
-        }
-                                                 
+                      document.getElementById("userDescriptionData").innerHTML=descriptionArray[index];
+                      document.getElementById("userGenderData").innerHTML=genderArray[index];             
+                      report(index,notSwipedArray);        
+                                             
+swipe(index,elementLeft,elementRight,distanceArray,photoArray,nameArray,descriptionArray,genderArray,notSwipedArray,jobarray,cityarray);
+                                                      
 }
 else if(docSnapshot.exists)
 {
-  
-    console.log("istnieje");
-   
+  console.log("User already swapped");
 }
                  });
 
@@ -418,6 +166,7 @@ else if(docSnapshot.exists)
     })
 
 }
+
 function calcCrow(lat1, lon1, lat2, lon2) 
 {
   var R = 6371; // km
@@ -433,9 +182,132 @@ function calcCrow(lat1, lon1, lat2, lon2)
   return d;
 }
 
-// Converts numeric degrees to radians
 function toRad(Value) 
 {
     return Value * Math.PI / 180;
+}
+
+function swipe(index,elementLeft,elementRight,distanceArray,photoArray,nameArray,descriptionArray,genderArray,notSwipedArray,jobarray,cityarray)
+{
+  var user=firebase.auth().currentUser;
+  elementRight.onclick = function() {
+
+    if(index<notSwipedArray.length && notSwipedArray[index]!=user.uid)
+    { 
+    
+      document.getElementById("labelForDistance").innerHTML=distanceArray[index+1];
+      document.getElementById("card").style.backgroundImage="url("+photoArray[index+1]+")";
+      document.getElementById("userNameData").innerHTML=nameArray[index+1];
+      document.getElementById("userDescriptionData").innerHTML=descriptionArray[index+1];
+      document.getElementById("userGenderData").innerHTML=genderArray[index+1];
+      document.getElementById("userCity").innerHTML=cityarray[index+1];
+      document.getElementById("userJob").innerHTML=jobarray[index+1];
+    db.collection("users").doc(notSwipedArray[index]).collection("SwipedBy").doc(user.uid).set({
+           swipe:true,
+           swiped:user.uid
+        })
+        db.collection("users").doc(user.uid).collection("SwipedBy").doc(notSwipedArray[index]).get()
+            .then((docSnapshot) => {
+              if(docSnapshot.exists)
+              {
+
+              var dataSwipe=docSnapshot.data().swipe;
+          if (docSnapshot.exists && notSwipedArray[index-1]!=user.uid && dataSwipe==true) 
+          {  
+            db.collection("Matches").doc().set({
+          id2: notSwipedArray[index-1],
+          id1:user.uid
+        })
+          }
+        }
+        else
+        {
+          console.log("Swiped");
+        }
+          });          
+    
+    index++;
+      
+      }
+    
+    
+    else{
+    window.alert("Koniec zdjec");
+    document.getElementById("dataCard").style.visibility = "hidden";
+    reportButton.style.visibility="hidden";
+    document.getElementById("labelForDistance").style.visibility="hidden";
+         index++;
+    
+    }
+      }
+    
+      elementLeft.onclick = function() {
+      
+        if(index<notSwipedArray.length && notSwipedArray[index]!=user.uid)
+        {
+            document.getElementById("card").style.backgroundImage="url("+photoArray[index+1]+")";
+            document.getElementById("userNameData").innerHTML=nameArray[index+1];
+            document.getElementById("userDescriptionData").innerHTML=descriptionArray[index+1];
+            document.getElementById("userGenderData").innerHTML=genderArray[index+1];
+            document.getElementById("labelForDistance").innerHTML=distanceArray[index+1];
+            document.getElementById("userCity").innerHTML=cityarray[index+1];
+            document.getElementById("userJob").innerHTML=jobarray[index+1];
+          db.collection("users").doc(notSwipedArray[index]).collection("SwipedBy").doc(user.uid).set({
+                 swipe:false,
+                 swiped:user.uid
+              })                    
+      
+      index++;
+      
+            }
+      
+      
+      else{
+        document.getElementById("dataCard").style.visibility = "hidden";
+        reportButton.style.visibility="hidden";
+        document.getElementById("labelForDistance").style.visibility="hidden";
+               index++;
+      
+      }
+       
+            }
+}
+
+function report(index,notSwipedArray)
+{
+  var modalReport = document.getElementById("reportModal");
+  var btnReport = document.getElementById("report");
+  
+  var spanReport = document.getElementsByClassName("closeReport")[0];
+
+  spanReport.onclick = function() {
+    modalReport.style.display = "none";
+    }
+
+  window.addEventListener("click", function(event) {
+    if (event.target == modalReport) {
+      modalReport.style.display = "none";
+      
+    }
+  });
+ 
+  btnReport.onclick = function() {
+  modalReport.style.display="flex";
+    document.getElementById("reportForMessages").style.display="none";
+    document.getElementById("hideMessages").style.display="none";
+    document.getElementById("reportButtonSend").onclick=function()
+  {
+    if(document.getElementById("reportForPhoto").checked) {
+      reportFor(index,notSwipedArray,"Photo");                 
+    }
+    else if(document.getElementById('reportForDescription').checked)
+    {
+      reportFor(index,notSwipedArray,"Description"); 
+                      
+    }
+  
+
+    }
+  }
 }
 

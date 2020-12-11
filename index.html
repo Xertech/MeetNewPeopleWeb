@@ -44,8 +44,15 @@
       <button onclick="toggleSignIn()" name="signin">Zaloguj</button>
     </div>
 
-    <div class="lostpassword" <h4>Nie pamiętam hasła.</h4></div>
+    <h4 class="lostpassword" id="resetBtn">Reset hasla</h4>
 
+    <script>
+      
+      	document.getElementById("resetBtn").onclick = function() {
+                location.href = "passwordReset.html";
+
+					}
+    </script>
       <div class="buttons"></div>
       <button id="myButton" class="float-left submit-button">Rejestracja</button>
     </div>
